@@ -1,25 +1,39 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-
-    var servicesAssembly: ServicesAssembly!
-
-    private let catalogTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(systemName: "square.stack.3d.up.fill"),
-        tag: 0
-    )
-
+    
+    private let servicesAssembly: ServicesAssembly
+    private let catalogTabBarItem = UITabBarItem(title: NSLocalizedString("Tab.catalog", comment: ""), image: UIImage(systemName: "square.stack.3d.up.fill"), tag: 0)
+    private let statisticTabBarItem = UITabBarItem(title: NSLocalizedString("Tab.statistic", comment: ""), image: UIImage(resource: .tabBarIconStatistic), tag: 1)
+    
+    init(servicesAssembly: ServicesAssembly) {
+        self.servicesAssembly = servicesAssembly
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        return nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let catalogController = TestCatalogViewController(
-            servicesAssembly: servicesAssembly
-        )
+        
+        setupTabs()
+    }
+    
+    private func setupTabs() {
+        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
         catalogController.tabBarItem = catalogTabBarItem
-
-        viewControllers = [catalogController]
-
+        
+        let statisticController = StatisticViewController()
+        statisticController.tabBarItem = statisticTabBarItem
+        
+        viewControllers = [
+            catalogController,
+            statisticController
+        ]
+        
+        tabBar.tintColor = .systemBlue
         view.backgroundColor = .systemBackground
     }
 }
