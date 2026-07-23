@@ -52,6 +52,10 @@
 		AB455D123011201700673A46 /* CatalogViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D0C3011201700673A46 /* CatalogViewState.swift */; };
 		AB455D153011201D00673A46 /* Catalog.md in Resources */ = {isa = PBXBuildFile; fileRef = AB455D133011201D00673A46 /* Catalog.md */; };
 		AB455D173011206900673A46 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D163011206800673A46 /* CatalogViewModel.swift */; };
+		AB455D83301222CE00673A46 /* CollectionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D82301222CB00673A46 /* CollectionDetailViewModel.swift */; };
+		AB455D85301222DF00673A46 /* CollectionDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D84301222DA00673A46 /* CollectionDetailViewState.swift */; };
+		AB455D87301222F100673A46 /* CollectionHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D86301222EC00673A46 /* CollectionHeaderModel.swift */; };
+		AB455D89301222FE00673A46 /* NftCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D88301222FB00673A46 /* NftCellModel.swift */; };
 		E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */; };
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
 		E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */; };
@@ -122,6 +126,10 @@
 		AB455D0C3011201700673A46 /* CatalogViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewState.swift; sourceTree = "<group>"; };
 		AB455D133011201D00673A46 /* Catalog.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Catalog.md; sourceTree = "<group>"; };
 		AB455D163011206800673A46 /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
+		AB455D82301222CB00673A46 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
+		AB455D84301222DA00673A46 /* CollectionDetailViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewState.swift; sourceTree = "<group>"; };
+		AB455D86301222EC00673A46 /* CollectionHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderModel.swift; sourceTree = "<group>"; };
+		AB455D88301222FB00673A46 /* NftCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftCellModel.swift; sourceTree = "<group>"; };
 		E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E1CD40D82A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -395,6 +403,7 @@
 		AB455D0F3011201700673A46 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				AB455D80301222A000673A46 /* CollectionDetail */,
 				AB455D0E3011201700673A46 /* Catalog */,
 			);
 			path = Screens;
@@ -406,6 +415,25 @@
 				AB455D133011201D00673A46 /* Catalog.md */,
 			);
 			path = Docs;
+			sourceTree = "<group>";
+		};
+		AB455D80301222A000673A46 /* CollectionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				AB455D81301222B700673A46 /* ViewModel */,
+			);
+			path = CollectionDetail;
+			sourceTree = "<group>";
+		};
+		AB455D81301222B700673A46 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB455D88301222FB00673A46 /* NftCellModel.swift */,
+				AB455D86301222EC00673A46 /* CollectionHeaderModel.swift */,
+				AB455D84301222DA00673A46 /* CollectionDetailViewState.swift */,
+				AB455D82301222CB00673A46 /* CollectionDetailViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E19CD5A92A98B55900CA39A5 /* Cell */ = {
@@ -592,6 +620,7 @@
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,
 				3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */,
+				AB455D85301222DF00673A46 /* CollectionDetailViewState.swift in Sources */,
 				AB455CF0300FB6F100673A46 /* CollectionsRequest.swift in Sources */,
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
@@ -606,7 +635,9 @@
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,
 				AB455CF2300FB8DC00673A46 /* CollectionRequestById.swift in Sources */,
+				AB455D89301222FE00673A46 /* NftCellModel.swift in Sources */,
 				AB455D103011201700673A46 /* CatalogCellModel.swift in Sources */,
+				AB455D87301222F100673A46 /* CollectionHeaderModel.swift in Sources */,
 				AB455D113011201700673A46 /* CatalogSortOption.swift in Sources */,
 				AB455D123011201700673A46 /* CatalogViewState.swift in Sources */,
 				0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */,
@@ -615,6 +646,7 @@
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
 				0CFCB7492A7808900009A829 /* TestCatalogController.swift in Sources */,
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
+				AB455D83301222CE00673A46 /* CollectionDetailViewModel.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,
 				0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */,
 			);
