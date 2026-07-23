@@ -113,6 +113,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		28FE4D1330112B15007BD937 /* StatisticFlow */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = StatisticFlow; sourceTree = "<group>"; };
+		28FE4D2C30128BD3007BD937 /* Docs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Docs; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +229,7 @@
 		3F68069529CBBAF100B4F915 /* FakeNFT */ = {
 			isa = PBXGroup;
 			children = (
+				28FE4D2C30128BD3007BD937 /* Docs */,
 				28FE4D1330112B15007BD937 /* StatisticFlow */,
 				3F68069629CBBAF100B4F915 /* AppDelegate.swift */,
 				3F68069829CBBAF100B4F915 /* SceneDelegate.swift */,
@@ -383,6 +385,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				28FE4D1330112B15007BD937 /* StatisticFlow */,
+				28FE4D2C30128BD3007BD937 /* Docs */,
 			);
 			name = FakeNFT;
 			packageProductDependencies = (
