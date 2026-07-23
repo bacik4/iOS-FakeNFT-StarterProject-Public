@@ -10,7 +10,6 @@ import UIKit
 final class StatisticViewController: UIViewController {
     
     //MARK: - Private Properties
-    private lazy var filterButton = UIButton()
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -18,8 +17,7 @@ final class StatisticViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        tableView.register(StatisticTableViewCell.self, forCellReuseIdentifier: StatisticTableViewCell.identifier)
+        tableView.register(StatisticTableViewCell.self, forCellReuseIdentifier: ReuseIdentifiers.StatisticTableViewCell)
         
         return tableView
     }()
@@ -34,32 +32,25 @@ final class StatisticViewController: UIViewController {
         tableView.delegate = self
     }
     
-    @objc func filterButtonTapped() {}
+    @objc private func filterButtonTapped() {
+        //TODO: Логика фильтрации
+    }
 }
 
 //MARK: - UI Setup
 extension StatisticViewController {
     
-    private func setupFilterButton() {
-        filterButton.setImage(UIImage(resource: .filterButtonIcon), for: .normal)
-        filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+    private func setupNavigationBar() {
+        let filterButton = UIBarButtonItem(image: UIImage(resource: .filterButtonIcon), style: .plain, target: self, action: #selector(filterButtonTapped))
         
-        filterButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(filterButton)
-        
-        NSLayoutConstraint.activate([
-            filterButton.heightAnchor.constraint(equalToConstant: 42),
-            filterButton.widthAnchor.constraint(equalToConstant: 42),
-            filterButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            filterButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -9)
-        ])
+        navigationItem.rightBarButtonItem = filterButton
     }
     
     private func setupTableView() {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: filterButton.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
@@ -67,7 +58,7 @@ extension StatisticViewController {
     }
     
     private func setupUI() {
-        setupFilterButton()
+        setupNavigationBar()
         setupTableView()
     }
 }
@@ -79,7 +70,7 @@ extension StatisticViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticTableViewCell.identifier, for: indexPath) as? StatisticTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifiers.StatisticTableViewCell, for: indexPath) as? StatisticTableViewCell else {
             return UITableViewCell()
         }
         
@@ -93,5 +84,13 @@ extension StatisticViewController: UITableViewDataSource {
 extension StatisticViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         88
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true
+        )
+        let userViewController = UserProfileViewController()
+        
+        navigationController?.pushViewController(userViewController, animated: true)
     }
 }

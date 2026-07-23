@@ -9,9 +9,6 @@ import UIKit
 
 final class StatisticTableViewCell: UITableViewCell {
     
-    // MARK: - Public Properties
-    static let identifier = AccessibilityIdentifiers.StatisticTableViewCell
-    
     // MARK: - Private Properties
     private lazy var numberLabel = UILabel()
     private lazy var cardBGView = UIView()
@@ -72,8 +69,6 @@ final class StatisticTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             cardBGView.leadingAnchor.constraint(equalTo: numberLabel.trailingAnchor, constant: 8),
             cardBGView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            cardBGView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cardBGView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             cardBGView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             cardBGView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         ])

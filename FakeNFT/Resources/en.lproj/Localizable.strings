@@ -5,3 +5,7 @@
 "Error.repeat" = "Повторить";
 "Error.title" = "Ошибка";
 "Tab.statistic" = "statistics";
+"UserCollection.header" = "NFT Collection";
+"UserProfile.goToWebButton" = "Go to website";
+"UserProfile.collectionButton" = "NFT Collection";
+"UserProfileViewController.header" = "Profile";

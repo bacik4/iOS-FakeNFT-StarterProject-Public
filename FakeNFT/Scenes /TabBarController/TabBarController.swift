@@ -28,9 +28,12 @@ final class TabBarController: UITabBarController {
         let statisticController = StatisticViewController()
         statisticController.tabBarItem = statisticTabBarItem
         
+        let statisticNavigationController = UINavigationController(rootViewController: statisticController)
+        statisticNavigationController.tabBarItem = statisticTabBarItem
+        
         viewControllers = [
             catalogController,
-            statisticController
+            statisticNavigationController
         ]
         
         tabBar.tintColor = .systemBlue
