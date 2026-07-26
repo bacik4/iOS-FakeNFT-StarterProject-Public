@@ -13,6 +13,10 @@ final class UserCollectionViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.minimumLineSpacing = Constants.collectionViewMinimumLineSpacingForSection
+        layout.minimumInteritemSpacing = Constants.collectionViewMinimumInteritemSpacingForSection
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor(resource: .nftWhite)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,8 +77,9 @@ extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let spacing: CGFloat = 9
         let width = (collectionView.bounds.width - spacing * 2) / 3
+        let height = Constants.tableViewCellHeight
         
-        return CGSize(width: width, height: 192)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

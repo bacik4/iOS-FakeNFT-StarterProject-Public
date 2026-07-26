@@ -28,6 +28,22 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         nil
     }
     
+    // MARK: - Overrides Methods
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
+        let width = layoutAttributes.frame.width
+        
+        let size = contentView.systemLayoutSizeFitting(
+            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        attributes.size = CGSize(width: width, height: size.height)
+        
+        return attributes
+    }
+    
     // MARK: - Public Methods
     func configure(image: UIImage?, name: String, price: String, ratingImage: UIImage?, isLiked: Bool) {
         nftImageView.image = image
@@ -100,7 +116,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupPriceLabel() {
-        priceLabel.font = .systemFont(ofSize: 10, weight: .regular)
+        priceLabel.font = .systemFont(ofSize: 10, weight: .medium)
         priceLabel.textColor = UIColor(resource: .nftBlack)
         
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
