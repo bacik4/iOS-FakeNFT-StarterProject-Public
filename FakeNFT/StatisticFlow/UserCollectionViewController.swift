@@ -54,13 +54,15 @@ extension UserCollectionViewController {
 //MARK: - CollectionViewDataSource
 extension UserCollectionViewController:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        8
+        Constants.mockNftCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifiers.NFTCollectionViewCell, for: indexPath) as? NFTCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
+        cell.configure(image: nil, name: "NFT \(indexPath.row + 1)", price: "1.11 ETH", ratingImage: UIImage(resource: .ratingTwoStars), isLiked: false)
         
         return cell
     }
@@ -76,11 +78,11 @@ extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        20
+        Constants.collectionViewMinimumLineSpacingForSection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        9
+        Constants.collectionViewMinimumInteritemSpacingForSection
     }
 }
 

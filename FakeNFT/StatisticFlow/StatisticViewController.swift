@@ -66,7 +66,7 @@ extension StatisticViewController {
 //MARK: - UITableViewDataSource
 extension StatisticViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        16
+        Constants.mockUsersCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +74,7 @@ extension StatisticViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(number: indexPath.row + 1, avatar: nil, name: "UserTest", rating: 15)
+        cell.configure(number: indexPath.row + 1, avatar: nil, name: "UserTest \(indexPath.row + 1)", rating: 15)
         
         return cell
     }
@@ -83,7 +83,7 @@ extension StatisticViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension StatisticViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        88
+        Constants.tableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

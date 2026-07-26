@@ -3,6 +3,7 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     private let servicesAssembly: ServicesAssembly
+    
     private let catalogTabBarItem = UITabBarItem(title: NSLocalizedString("Tab.catalog", comment: ""), image: UIImage(systemName: "square.stack.3d.up.fill"), tag: 0)
     private let statisticTabBarItem = UITabBarItem(title: NSLocalizedString("Tab.statistic", comment: ""), image: UIImage(resource: .tabBarIconStatistic), tag: 1)
     

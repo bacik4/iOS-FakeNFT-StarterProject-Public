@@ -28,6 +28,18 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         nil
     }
     
+    // MARK: - Public Methods
+    func configure(image: UIImage?, name: String, price: String, ratingImage: UIImage?, isLiked: Bool) {
+        nftImageView.image = image
+        nameLabel.text = name
+        priceLabel.text = price
+        ratingImageView.image = ratingImage
+        
+        let likeImage = isLiked ? UIImage(resource: .likeActiveIcon) : UIImage(resource: .likeInactiveIcon)
+        
+        likeButton.setImage(likeImage, for: .normal)
+    }
+    
     //MARK: - UI Settings
     private func setupNFTImageView() {
         nftImageView.backgroundColor = UIColor(resource: .nftLightGrey)
@@ -47,8 +59,6 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLikeButton() {
-        likeButton.setImage(UIImage(resource: .likeInactiveIcon), for: .normal)
-        
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(likeButton)
         
@@ -61,7 +71,6 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupRatingImageView() {
-        ratingImageView.image = UIImage(resource: .ratingTwoStars)
         ratingImageView.contentMode = .left
         
         ratingImageView.translatesAutoresizingMaskIntoConstraints = false
