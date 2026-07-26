@@ -87,8 +87,6 @@ extension StatisticViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true
-        )
         let userViewController = UserProfileViewController()
         
         navigationController?.pushViewController(userViewController, animated: true)

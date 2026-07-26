@@ -66,7 +66,7 @@ extension UserCollectionViewController:UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(image: nil, name: "NFT \(indexPath.row + 1)", price: "1.11 ETH", ratingImage: UIImage(resource: .ratingTwoStars), isLiked: false)
+        cell.configure(image: nil, name: "NFT \(indexPath.row + 1)", price: "1.23 ETH", ratingImage: UIImage(resource: .ratingTwoStars), isLiked: false)
         
         return cell
     }
