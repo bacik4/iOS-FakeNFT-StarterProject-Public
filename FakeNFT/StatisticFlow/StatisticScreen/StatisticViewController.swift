@@ -10,6 +10,8 @@ import UIKit
 final class StatisticViewController: UIViewController {
     
     //MARK: - Private Properties
+    private let viewModel: StatisticViewModel
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -22,6 +24,17 @@ final class StatisticViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Initializers
+    init(viewModel: StatisticViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        nil
+    }
+    
     //MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +43,12 @@ final class StatisticViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        viewModel.onUsersChanged = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
+        viewModel.loadUsers()
     }
     
     @objc private func filterButtonTapped() {
@@ -66,7 +85,7 @@ extension StatisticViewController {
 //MARK: - UITableViewDataSource
 extension StatisticViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Constants.mockUsersCount
+        viewModel.numberOfUsers
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +93,8 @@ extension StatisticViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(number: indexPath.row + 1, avatar: nil, name: "UserTest \(indexPath.row + 1)", rating: 15)
+        let user = viewModel.user(at: indexPath.row)
+        cell.configure(number: indexPath.row + 1, avatar: user.avatar, name: user.name, rating: user.rating)
         
         return cell
     }
@@ -87,8 +107,9 @@ extension StatisticViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let userViewController = UserProfileViewController()
+        viewModel.didSelectUser(at: indexPath.row)
         
+        let userViewController = UserProfileViewController()
         navigationController?.pushViewController(userViewController, animated: true)
     }
 }
