@@ -19,6 +19,8 @@ final class UserProfileViewController: UIViewController {
     private lazy var collectionTitleLabel = UILabel()
     private lazy var collectionArrowImageView = UIImageView()
     
+    private var mockNFTCount = 8 //при написании логики вынесу из контроллера эту сущность, так как она не является ответственностью контроллера
+    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +94,7 @@ extension UserProfileViewController {
     private func setupGoToWebButton() {
         goToWebButton.setTitle(NSLocalizedString("UserProfile.goToWebButton", comment: ""), for: .normal)
         goToWebButton.setTitleColor(UIColor(resource: .nftBlack), for: .normal)
+        goToWebButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
         goToWebButton.backgroundColor = .clear
         goToWebButton.layer.borderWidth = 1
         goToWebButton.layer.borderColor = UIColor(resource: .nftBlack).cgColor
@@ -111,7 +114,7 @@ extension UserProfileViewController {
     }
     
     private func setupUserCollectionButton() {
-        collectionTitleLabel.text = NSLocalizedString("UserProfile.collectionButton", comment: "")
+        collectionTitleLabel.text = "\(NSLocalizedString("UserProfile.collectionButton", comment: "")) (\(mockNFTCount))"
         collectionTitleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         collectionTitleLabel.textColor = UIColor(resource: .nftBlack)
         collectionArrowImageView.image = UIImage(systemName: "chevron.right")
