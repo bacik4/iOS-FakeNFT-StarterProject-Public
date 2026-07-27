@@ -56,6 +56,10 @@
 		AB455D85301222DF00673A46 /* CollectionDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D84301222DA00673A46 /* CollectionDetailViewState.swift */; };
 		AB455D87301222F100673A46 /* CollectionHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D86301222EC00673A46 /* CollectionHeaderModel.swift */; };
 		AB455D89301222FE00673A46 /* NftCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D88301222FB00673A46 /* NftCellModel.swift */; };
+		AB455D8D3013635300673A46 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D8C3013635100673A46 /* CatalogViewController.swift */; };
+		AB455D8F30175A7900673A46 /* CatalogCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D8E30175A7600673A46 /* CatalogCollectionCell.swift */; };
+		AB455D9230175E8D00673A46 /* CatalogAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D9130175E8C00673A46 /* CatalogAssembly.swift */; };
+		AB455D953017626700673A46 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB455D943017626600673A46 /* ImageLoader.swift */; };
 		E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */; };
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
 		E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */; };
@@ -130,6 +134,10 @@
 		AB455D84301222DA00673A46 /* CollectionDetailViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewState.swift; sourceTree = "<group>"; };
 		AB455D86301222EC00673A46 /* CollectionHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderModel.swift; sourceTree = "<group>"; };
 		AB455D88301222FB00673A46 /* NftCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftCellModel.swift; sourceTree = "<group>"; };
+		AB455D8C3013635100673A46 /* CatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
+		AB455D8E30175A7600673A46 /* CatalogCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCollectionCell.swift; sourceTree = "<group>"; };
+		AB455D9130175E8C00673A46 /* CatalogAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogAssembly.swift; sourceTree = "<group>"; };
+		AB455D943017626600673A46 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E1CD40D82A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -375,6 +383,8 @@
 		AB455D093011201700673A46 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AB455D8E30175A7600673A46 /* CatalogCollectionCell.swift */,
+				AB455D8C3013635100673A46 /* CatalogViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -393,6 +403,8 @@
 		AB455D0E3011201700673A46 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				AB455D933017625C00673A46 /* Services */,
+				AB455D9030175E7300673A46 /* Assembly */,
 				AB455D083011201700673A46 /* Cell */,
 				AB455D093011201700673A46 /* View */,
 				AB455D0D3011201700673A46 /* ViewModel */,
@@ -434,6 +446,22 @@
 				AB455D82301222CB00673A46 /* CollectionDetailViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AB455D9030175E7300673A46 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				AB455D9130175E8C00673A46 /* CatalogAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		AB455D933017625C00673A46 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AB455D943017626600673A46 /* ImageLoader.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		E19CD5A92A98B55900CA39A5 /* Cell */ = {
@@ -607,17 +635,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC8C38B29D242E90081F015 /* ProductDetailsTableViewCell.swift in Sources */,
+				AB455D953017626700673A46 /* ImageLoader.swift in Sources */,
+				AB455D9230175E8D00673A46 /* CatalogAssembly.swift in Sources */,
 				3F478ECF29DB474E00F6D39E /* Colors.swift in Sources */,
 				AB455D173011206900673A46 /* CatalogViewModel.swift in Sources */,
 				AB455CEE300FA77300673A46 /* NftCollection.swift in Sources */,
 				0C79EE662A76DDFF00EE90EA /* NftDetailViewController.swift in Sources */,
 				E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */,
+				AB455D8F30175A7900673A46 /* CatalogCollectionCell.swift in Sources */,
 				3F478ED129DB476500F6D39E /* Fonts.swift in Sources */,
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,
+				AB455D8D3013635300673A46 /* CatalogViewController.swift in Sources */,
 				3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */,
 				AB455D85301222DF00673A46 /* CollectionDetailViewState.swift in Sources */,
