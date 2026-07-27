@@ -29,7 +29,36 @@ final class CatalogViewController: UIViewController {
     
     @objc
     private func didTapSortButton() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("Catalog.sort.title", comment: ""),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
+        let sortByNameAction = UIAlertAction(
+            title: NSLocalizedString("Catalog.sort.name", comment: ""),
+            style: .default
+        ) { [weak self] _ in
+            self?.viewModel.applySort(.name)
+        }
+        
+        let sortByCountAction = UIAlertAction(
+            title: NSLocalizedString("Catalog.sort.nftCount", comment: ""),
+            style: .default
+        ) { [weak self] _ in
+            self?.viewModel.applySort(.nftCount)
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("Alert.close", comment: ""),
+            style: .cancel
+        )
+        
+        alert.addAction(sortByNameAction)
+        alert.addAction(sortByCountAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
 }
 
@@ -76,7 +105,8 @@ private extension CatalogViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }}
+    }
+}
 
 extension CatalogViewController: UITableViewDataSource {
     func tableView(

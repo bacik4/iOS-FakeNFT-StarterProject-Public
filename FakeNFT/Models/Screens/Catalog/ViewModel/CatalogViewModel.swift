@@ -1,17 +1,30 @@
 import Foundation
 
+private enum StorageKeys {
+    static let sortOption = "catalogSortOption"
+}
+
 final class CatalogViewModel {
     
     private let collectionService: CollectionService
     
     init(collectionService: CollectionService) {
         self.collectionService = collectionService
+        
+        if let savedValue = UserDefaults.standard.string(
+            forKey: StorageKeys.sortOption
+        ),
+           let savedOption = CatalogSortOption(rawValue: savedValue) {
+            currentSortOption = savedOption
+        } else {
+            currentSortOption = .nftCount
+        }
     }
     
     private var collections: [NftCollection] = []
     private var displayedCollections: [NftCollection] = []
     
-    private var currentSortOption: CatalogSortOption = .nftCount
+    private var currentSortOption: CatalogSortOption
     
     var onStateChanged: ((CatalogViewState) -> Void)?
     
@@ -54,6 +67,11 @@ final class CatalogViewModel {
     
     func applySort(_ option: CatalogSortOption) {
         currentSortOption = option
+        
+        UserDefaults.standard.set(
+            option.rawValue,
+            forKey: StorageKeys.sortOption
+        )
         
         switch option {
         case .name:

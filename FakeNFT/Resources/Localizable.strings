@@ -6,3 +6,7 @@
 "Error.title" = "Ошибка";
 "ShowError.message" = "Не удалось загрузить каталог";
 "Alert.cancel" = "Отмена";
+"Catalog.sort.title" = "Сортировка";
+"Catalog.sort.name" = "По названию";
+"Catalog.sort.nftCount" = "По количеству NFT";
+"Alert.close" = "Закрыть";
