@@ -28,6 +28,7 @@ final class UserProfileViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         nil
     }
@@ -44,7 +45,12 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc private func goToWebButtonTapped() {
-        //TODO: - Логика открытия webView
+        guard let url = URL(string: viewModel.website) else {
+            return
+        }
+        
+        let webViewController = WebViewViewController(url: url)
+        navigationController?.pushViewController(webViewController, animated: true)
     }
     
     @objc private func userCollectionButtonTapped() {

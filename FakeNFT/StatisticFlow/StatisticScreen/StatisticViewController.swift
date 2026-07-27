@@ -119,7 +119,8 @@ extension StatisticViewController: UITableViewDelegate {
             avatarURL: user.avatarURL,
             name: user.name,
             description: user.description ?? "",
-            nftCount: user.nftCount
+            nftCount: user.nftCount,
+            website: user.website
         )
         
         let userViewController = UserProfileViewController(viewModel: profileViewModel)
