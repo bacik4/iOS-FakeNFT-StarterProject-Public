@@ -38,9 +38,13 @@ final class StatisticViewModel {
                 self?.users = users
                     .map {
                         StatisticUserCellViewModel(
+                            id: $0.id,
                             avatarURL: URL(string: $0.avatar),
                             name: $0.name,
-                            rating: Int($0.rating) ?? 0
+                            rating: Int($0.rating) ?? 0,
+                            description: $0.description,
+                            nftCount: $0.nfts.count,
+                            website: $0.website
                         )
                     }
                     .sorted {
@@ -55,7 +59,7 @@ final class StatisticViewModel {
         }
     }
     
-    func didSelectUser(at index: Int) {
-        let user = users[index]
+    func didSelectUser(at index: Int) -> StatisticUserCellViewModel {
+        users[index]
     }
 }

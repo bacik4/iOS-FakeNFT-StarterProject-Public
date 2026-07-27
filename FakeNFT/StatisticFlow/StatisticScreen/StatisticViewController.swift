@@ -112,9 +112,18 @@ extension StatisticViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didSelectUser(at: indexPath.row)
         
-        let userViewController = UserProfileViewController()
+        let user = viewModel.didSelectUser(at: indexPath.row)
+        
+        let profileViewModel = UserProfileViewModel(
+            avatarURL: user.avatarURL,
+            name: user.name,
+            description: user.description ?? "",
+            nftCount: user.nftCount
+        )
+        
+        let userViewController = UserProfileViewController(viewModel: profileViewModel)
+        
         navigationController?.pushViewController(userViewController, animated: true)
     }
 }

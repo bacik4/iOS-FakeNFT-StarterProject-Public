@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class UserProfileViewController: UIViewController {
     
     // MARK: - Private Properties
+    private let viewModel: UserProfileViewModel
+    
     private lazy var avatarImageView = UIImageView()
     private lazy var nameLabel = UILabel()
     private lazy var descriptionLabel = UILabel()
@@ -19,7 +22,15 @@ final class UserProfileViewController: UIViewController {
     private lazy var collectionTitleLabel = UILabel()
     private lazy var collectionArrowImageView = UIImageView()
     
-    private var mockNFTCount = 8 //при написании логики вынесу из контроллера эту сущность, так как она не является ответственностью контроллера
+    // MARK: - Initializers
+    init(viewModel: UserProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        nil
+    }
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -29,7 +40,7 @@ final class UserProfileViewController: UIViewController {
         title = NSLocalizedString("UserProfileViewController.header", comment: "")
         
         setupUI()
-        setupMockUser()
+        bindViewModel()
     }
     
     @objc private func goToWebButtonTapped() {
@@ -114,7 +125,6 @@ extension UserProfileViewController {
     }
     
     private func setupUserCollectionButton() {
-        collectionTitleLabel.text = "\(NSLocalizedString("UserProfile.collectionButton", comment: "")) (\(mockNFTCount))"
         collectionTitleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         collectionTitleLabel.textColor = UIColor(resource: .nftBlack)
         collectionArrowImageView.image = UIImage(systemName: "chevron.right")
@@ -162,8 +172,20 @@ extension UserProfileViewController {
         
     }
     
-    private func setupMockUser() {
-        nameLabel.text = "Joaquin Phoenix"
-        descriptionLabel.text = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям."
+    private func bindViewModel() {
+        nameLabel.text = viewModel.name
+        descriptionLabel.text = viewModel.description
+        
+        collectionTitleLabel.text =
+        "\(NSLocalizedString("UserProfile.collectionButton", comment: "")) (\(viewModel.nftCount))"
+        
+        if let url = viewModel.avatarURL {
+            avatarImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(resource: .avatarPlaceholderIcon)
+            )
+        } else {
+            avatarImageView.image = UIImage(resource: .avatarPlaceholderIcon)
+        }
     }
 }
