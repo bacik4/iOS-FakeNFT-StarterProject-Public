@@ -13,8 +13,11 @@ final class CatalogAssembly {
             collectionService: servicesAssembly.collectionService
         )
         
+        let collectionDetailAssembly = CollectionDetailAssembly(servicesAssembly: servicesAssembly)
+        
         let viewController = CatalogViewController(
-            viewModel: viewModel
+            viewModel: viewModel,
+            collectionDetailAssembly: collectionDetailAssembly
         )
         
         return viewController

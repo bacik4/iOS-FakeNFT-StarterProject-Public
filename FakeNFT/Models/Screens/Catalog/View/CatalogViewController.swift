@@ -3,6 +3,7 @@ import UIKit
 final class CatalogViewController: UIViewController {
     
     private let viewModel: CatalogViewModel
+    private let collectionDetailAssembly: CollectionDetailAssembly
     
     private let tableView = UITableView()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -11,8 +12,11 @@ final class CatalogViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(viewModel: CatalogViewModel) {
+    init(viewModel: CatalogViewModel,
+         collectionDetailAssembly: CollectionDetailAssembly
+    ) {
         self.viewModel = viewModel
+        self.collectionDetailAssembly = collectionDetailAssembly
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -140,6 +144,12 @@ extension CatalogViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let collectionId = viewModel.collectionId(at: indexPath.row)
+        
+        let detailViewController = collectionDetailAssembly.build(collectionId: collectionId)
+        
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
