@@ -94,7 +94,12 @@ extension StatisticViewController: UITableViewDataSource {
         }
         
         let user = viewModel.user(at: indexPath.row)
-        cell.configure(number: indexPath.row + 1, avatar: user.avatar, name: user.name, rating: user.rating)
+        cell.configure(
+            number: indexPath.row + 1,
+            avatarURL: user.avatarURL,
+            name: user.name,
+            rating: user.rating
+        )
         
         return cell
     }

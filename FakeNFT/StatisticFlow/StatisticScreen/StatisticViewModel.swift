@@ -38,7 +38,7 @@ final class StatisticViewModel {
                 self?.users = users
                     .map {
                         StatisticUserCellViewModel(
-                            avatar: nil,
+                            avatarURL: URL(string: $0.avatar),
                             name: $0.name,
                             rating: Int($0.rating) ?? 0
                         )

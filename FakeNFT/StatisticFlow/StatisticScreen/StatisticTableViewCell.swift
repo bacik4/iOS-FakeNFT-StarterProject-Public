@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class StatisticTableViewCell: UITableViewCell {
     
@@ -34,15 +35,20 @@ final class StatisticTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        avatarImageView.kf.cancelDownloadTask()
         avatarImageView.image = UIImage(resource: .avatarPlaceholderIcon)
     }
     
     // MARK: - Public Methods
-    func configure(number: Int, avatar: UIImage?, name: String, rating: Int) {
+    func configure(number: Int, avatarURL: URL?, name: String, rating: Int) {
         numberLabel.text = "\(number)"
         nameLabel.text = name
         ratingLabel.text = "\(rating)"
-        avatarImageView.image = avatar ?? UIImage(resource: .avatarPlaceholderIcon)
+        
+        avatarImageView.kf.setImage(
+            with: avatarURL,
+            placeholder: UIImage(resource: .avatarPlaceholderIcon)
+        )
     }
     
     //MARK: - UI Setup

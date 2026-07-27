@@ -8,7 +8,7 @@
 import UIKit
 
 struct StatisticUserCellViewModel {
-    let avatar: UIImage?
+    let avatarURL: URL?
     let name: String
     let rating: Int
 }
