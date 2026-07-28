@@ -10,10 +10,11 @@ import UIKit
 final class UserCollectionViewController: UIViewController {
     
     // MARK: - Private Properties
+    private let viewModel: UserCollectionViewModel
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.minimumLineSpacing = Constants.collectionViewMinimumLineSpacingForSection
         layout.minimumInteritemSpacing = Constants.collectionViewMinimumInteritemSpacingForSection
         
@@ -26,6 +27,15 @@ final class UserCollectionViewController: UIViewController {
         return collectionView
     }()
     
+    init(viewModel: UserCollectionViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        nil
+    }
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -35,6 +45,18 @@ final class UserCollectionViewController: UIViewController {
         collectionView.delegate = self
         
         setupUI()
+        bindViewModel()
+        
+        viewModel.loadNFTs()
+    }
+    
+    // MARK: - Private Methods
+    private func bindViewModel() {
+        viewModel.onNFTsChanged = { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
     }
 }
 
@@ -58,7 +80,7 @@ extension UserCollectionViewController {
 //MARK: - CollectionViewDataSource
 extension UserCollectionViewController:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        Constants.mockNftCount
+        viewModel.numberOfNFTs
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -66,7 +88,8 @@ extension UserCollectionViewController:UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(image: nil, name: "NFT \(indexPath.row + 1)", price: "1.23 ETH", ratingImage: UIImage(resource: .ratingTwoStars), isLiked: false)
+        let nft = viewModel.nft(at: indexPath.row)
+        cell.configure(viewModel: nft)
         
         return cell
     }
@@ -75,7 +98,7 @@ extension UserCollectionViewController:UICollectionViewDataSource {
 //MARK: - CollectionViewDelegateFlowLayout
 extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let spacing: CGFloat = 9
+        let spacing: CGFloat = Constants.collectionViewMinimumInteritemSpacingForSection
         let width = (collectionView.bounds.width - spacing * 2) / 3
         let height = Constants.tableViewCellHeight
         

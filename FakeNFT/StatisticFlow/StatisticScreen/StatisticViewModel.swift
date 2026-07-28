@@ -44,6 +44,7 @@ final class StatisticViewModel {
                             rating: Int($0.rating) ?? 0,
                             description: $0.description,
                             nftCount: $0.nfts.count,
+                            nftIDs: $0.nfts,
                             website: $0.website
                         )
                     }

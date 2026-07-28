@@ -11,14 +11,11 @@ final class ServicesAssembly {
         self.nftStorage = nftStorage
     }
     
-    var userService: UserService {
+    lazy var userService: UserService = {
         UserServiceImpl(networkClient: networkClient)
-    }
+    }()
     
-    var nftService: NftService {
-        NftServiceImpl(
-            networkClient: networkClient,
-            storage: nftStorage
-        )
-    }
+    lazy var nftService: NftService = {
+        NftServiceImpl(networkClient: networkClient, storage: nftStorage)
+    }()
 }

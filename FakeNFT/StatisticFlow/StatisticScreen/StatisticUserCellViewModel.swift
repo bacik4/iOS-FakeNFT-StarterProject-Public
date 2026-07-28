@@ -5,7 +5,7 @@
 //  Created by Роман Пичугин on 26.07.2026.
 //
 
-import UIKit
+import Foundation
 
 struct StatisticUserCellViewModel {
     let id: String
@@ -14,5 +14,6 @@ struct StatisticUserCellViewModel {
     let rating: Int
     let description: String?
     let nftCount: Int
+    let nftIDs: [String]
     let website: String
 }

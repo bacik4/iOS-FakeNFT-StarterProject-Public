@@ -12,6 +12,7 @@ final class UserProfileViewController: UIViewController {
     
     // MARK: - Private Properties
     private let viewModel: UserProfileViewModel
+    private let nftService: NftService
     
     private lazy var avatarImageView = UIImageView()
     private lazy var nameLabel = UILabel()
@@ -23,8 +24,10 @@ final class UserProfileViewController: UIViewController {
     private lazy var collectionArrowImageView = UIImageView()
     
     // MARK: - Initializers
-    init(viewModel: UserProfileViewModel) {
+    init(viewModel: UserProfileViewModel, nftService: NftService) {
         self.viewModel = viewModel
+        self.nftService = nftService
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,17 +48,17 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc private func goToWebButtonTapped() {
-        guard let url = URL(string: viewModel.website) else {
-            return
-        }
+        guard let url = URL(string: viewModel.website) else { return }
         
         let webViewController = WebViewViewController(url: url)
         navigationController?.pushViewController(webViewController, animated: true)
     }
     
     @objc private func userCollectionButtonTapped() {
-        let userCollectionViewController = UserCollectionViewController()
-        navigationController?.pushViewController(userCollectionViewController, animated: true)
+        let collectionViewModel = UserCollectionViewModel(nftIDs: viewModel.nftIDs, nftService: nftService)
+        let controller = UserCollectionViewController(viewModel: collectionViewModel)
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 

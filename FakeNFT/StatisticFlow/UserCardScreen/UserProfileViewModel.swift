@@ -14,4 +14,5 @@ struct UserProfileViewModel {
     let description: String
     let nftCount: Int
     let website: String
+    let nftIDs: [String]
 }

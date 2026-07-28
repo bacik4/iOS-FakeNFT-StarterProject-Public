@@ -5,6 +5,7 @@
 //  Created by Роман Пичугин on 22.07.2026.
 //
 import UIKit
+import Kingfisher
 
 final class NFTCollectionViewCell: UICollectionViewCell {
     
@@ -19,7 +20,6 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupUI()
     }
     
@@ -29,31 +29,29 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Overrides Methods
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-        let width = layoutAttributes.frame.width
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
-        let size = contentView.systemLayoutSizeFitting(
-            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
+        nftImageView.kf.cancelDownloadTask()
+        nftImageView.image = nil
+        ratingImageView.image = nil
         
-        attributes.size = CGSize(width: width, height: size.height)
+        nameLabel.text = nil
+        priceLabel.text = nil
         
-        return attributes
+        likeButton.setImage(nil, for: .normal)
     }
     
     // MARK: - Public Methods
-    func configure(image: UIImage?, name: String, price: String, ratingImage: UIImage?, isLiked: Bool) {
-        nftImageView.image = image
-        nameLabel.text = name
-        priceLabel.text = price
-        ratingImageView.image = ratingImage
+    func configure(viewModel: NFTCollectionCellViewModel) {
+        nameLabel.text = viewModel.name
+        priceLabel.text = viewModel.price
         
-        let likeImage = isLiked ? UIImage(resource: .likeActiveIcon) : UIImage(resource: .likeInactiveIcon)
+        let likeImage = viewModel.isLiked ? UIImage(resource: .likeActiveIcon) : UIImage(resource: .likeInactiveIcon)
         
         likeButton.setImage(likeImage, for: .normal)
+        
+        nftImageView.kf.setImage(with: viewModel.imageURL)
     }
     
     //MARK: - UI Settings

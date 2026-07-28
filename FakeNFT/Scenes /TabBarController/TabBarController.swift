@@ -36,7 +36,10 @@ final class TabBarController: UITabBarController {
         catalogController.tabBarItem = catalogTabBarItem
         
         let statisticViewModel = StatisticViewModel(userService: servicesAssembly.userService)
-        let statisticController = StatisticViewController(viewModel: statisticViewModel)
+        let statisticController = StatisticViewController(
+            viewModel: statisticViewModel,
+            nftService: servicesAssembly.nftService
+        )
         statisticController.tabBarItem = statisticTabBarItem
         
         let statisticNavigationController = UINavigationController(rootViewController: statisticController)

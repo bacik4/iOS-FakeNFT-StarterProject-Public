@@ -11,6 +11,7 @@ final class StatisticViewController: UIViewController {
     
     //MARK: - Private Properties
     private let viewModel: StatisticViewModel
+    private let nftService: NftService
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -25,8 +26,9 @@ final class StatisticViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: StatisticViewModel) {
+    init(viewModel: StatisticViewModel, nftService: NftService) {
         self.viewModel = viewModel
+        self.nftService = nftService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,7 +47,9 @@ final class StatisticViewController: UIViewController {
         tableView.delegate = self
         
         viewModel.onUsersChanged = { [weak self] in
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         }
         
         viewModel.loadUsers()
@@ -120,10 +124,11 @@ extension StatisticViewController: UITableViewDelegate {
             name: user.name,
             description: user.description ?? "",
             nftCount: user.nftCount,
-            website: user.website
+            website: user.website,
+            nftIDs: user.nftIDs
         )
         
-        let userViewController = UserProfileViewController(viewModel: profileViewModel)
+        let userViewController = UserProfileViewController(viewModel: profileViewModel, nftService: nftService)
         
         navigationController?.pushViewController(userViewController, animated: true)
     }
