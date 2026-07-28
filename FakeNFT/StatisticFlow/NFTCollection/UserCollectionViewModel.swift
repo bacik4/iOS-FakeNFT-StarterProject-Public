@@ -11,6 +11,7 @@ final class UserCollectionViewModel {
     
     // MARK: - Callback
     var onNFTsChanged: (() -> Void)?
+    var onLoadingChanged: ((Bool) -> Void)?
     
     // MARK: - Public Properties
     var numberOfNFTs: Int {
@@ -35,6 +36,15 @@ final class UserCollectionViewModel {
     }
     
     func loadNFTs() {
+        onLoadingChanged?(true)
+        
+        guard !nftIDs.isEmpty else {
+            nfts = []
+            onNFTsChanged?()
+            onLoadingChanged?(false)
+            return
+        }
+        
         let group = DispatchGroup()
         let synchronizationQueue = DispatchQueue(label: "UserCollectionViewModel.synchronization")
         var loadedNFTs = Array<NFTCollectionCellViewModel?>(repeating: nil, count: nftIDs.count)
@@ -52,7 +62,7 @@ final class UserCollectionViewModel {
                     let cellViewModel = NFTCollectionCellViewModel(
                         imageURL: nft.images.first,
                         name: nft.name,
-                        price: "\(nft.price)",
+                        price: "\(nft.price) ETH",
                         rating: nft.rating,
                         isLiked: false
                     )
@@ -72,6 +82,7 @@ final class UserCollectionViewModel {
             
             self.nfts = loadedNFTs.compactMap { $0 }
             self.onNFTsChanged?()
+            self.onLoadingChanged?(false)
         }
     }
 }

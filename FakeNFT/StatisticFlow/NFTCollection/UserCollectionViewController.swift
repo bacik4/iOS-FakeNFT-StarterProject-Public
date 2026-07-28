@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class UserCollectionViewController: UIViewController {
     
@@ -50,8 +51,28 @@ final class UserCollectionViewController: UIViewController {
         viewModel.loadNFTs()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        ProgressHUD.dismiss()
+    }
+    
     // MARK: - Private Methods
     private func bindViewModel() {
+        viewModel.onLoadingChanged = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                
+                if isLoading {
+                    ProgressHUD.show()
+                    self.collectionView.isUserInteractionEnabled = false
+                } else {
+                    ProgressHUD.dismiss()
+                    self.collectionView.isUserInteractionEnabled = true
+                }
+            }
+        }
+        
         viewModel.onNFTsChanged = { [weak self] in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
