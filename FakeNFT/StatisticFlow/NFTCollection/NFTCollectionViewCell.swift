@@ -43,7 +43,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
     // MARK: - Public Methods
     func configure(viewModel: NFTCollectionCellViewModel) {
         nameLabel.text = viewModel.name
-        priceLabel.text = viewModel.price
+        priceLabel.text = "\(viewModel.price) ETH"
         ratingImageView.image = makeRatingImage(rating: viewModel.rating)
         
         let likeImage = viewModel.isLiked
