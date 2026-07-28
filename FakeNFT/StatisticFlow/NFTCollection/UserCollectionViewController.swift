@@ -70,8 +70,8 @@ extension UserCollectionViewController {
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -98,11 +98,12 @@ extension UserCollectionViewController:UICollectionViewDataSource {
 //MARK: - CollectionViewDelegateFlowLayout
 extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let horizontalInsets: CGFloat = 16
         let spacing: CGFloat = Constants.collectionViewMinimumInteritemSpacingForSection
-        let width = (collectionView.bounds.width - spacing * 2) / 3
-        let height = Constants.tableViewCellHeight
+        let availableWidth = collectionView.bounds.width - horizontalInsets * 2 - spacing * 2
+        let width = floor(availableWidth / 3)
         
-        return CGSize(width: width, height: height)
+        return CGSize(width: width, height: 192)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -112,5 +113,8 @@ extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         Constants.collectionViewMinimumInteritemSpacingForSection
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
+    }
 }
-
