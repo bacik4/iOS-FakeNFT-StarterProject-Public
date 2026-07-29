@@ -7,6 +7,7 @@ final class CatalogCollectionCell: UITableViewCell {
     )
 
     private var imageLoadingTask: URLSessionDataTask?
+    private var currentCoverURL: URL?
 
     private let coverImageView: UIImageView = {
         let imageView = UIImageView()
@@ -36,7 +37,10 @@ final class CatalogCollectionCell: UITableViewCell {
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?
     ) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
 
         configureAppearance()
         configureLayout()
@@ -51,6 +55,7 @@ final class CatalogCollectionCell: UITableViewCell {
 
         imageLoadingTask?.cancel()
         imageLoadingTask = nil
+        currentCoverURL = nil
 
         coverImageView.image = UIImage(systemName: "photo")
         nameLabel.text = nil
@@ -58,14 +63,27 @@ final class CatalogCollectionCell: UITableViewCell {
     }
 
     func configure(with model: CatalogCellModel) {
+        imageLoadingTask?.cancel()
+        imageLoadingTask = nil
+
+        let coverURL = model.coverURL
+        currentCoverURL = coverURL
+
         nameLabel.text = model.name
         nftCountLabel.text = model.nftCountText
         coverImageView.image = UIImage(systemName: "photo")
 
         imageLoadingTask = ImageLoader.shared.loadImage(
-            from: model.coverURL
+            from: coverURL
         ) { [weak self] image in
-            self?.coverImageView.image =
+            guard let self else { return }
+
+            guard self.currentCoverURL == coverURL else {
+                return
+            }
+
+            self.imageLoadingTask = nil
+            self.coverImageView.image =
                 image ?? UIImage(systemName: "photo")
         }
     }

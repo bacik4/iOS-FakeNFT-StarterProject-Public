@@ -53,14 +53,10 @@ final class CatalogViewModel {
             guard let self else { return }
             switch result {
             case .success(let collections):
-                DispatchQueue.main.async {
-                    self.collections = collections
-                    self.applySort(self.currentSortOption)
-                }
+                self.collections = collections
+                self.applySort(self.currentSortOption)
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self.onStateChanged?(.error(error.localizedDescription))
-                }
+                self.onStateChanged?(.error(error.localizedDescription))
             }
         }
     }

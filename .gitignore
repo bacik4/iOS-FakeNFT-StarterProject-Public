@@ -89,4 +89,7 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+FakeNFT/SensitiveData.swift
+
 .DS_Store
+
