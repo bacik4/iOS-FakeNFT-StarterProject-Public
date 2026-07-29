@@ -9,6 +9,8 @@
 
 Таск-менеджер: https://github.com/users/bacik4/projects/2
 
+Скринкаст корзины: https://github.com/user-attachments/assets/14b2391c-8099-4f7b-a093-0d3ec1230ac0
+
 
 # Декомпозиция эпика Корзина
 
