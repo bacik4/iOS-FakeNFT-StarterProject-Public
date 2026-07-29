@@ -5,6 +5,7 @@
 //  Created by Сергей Петров on 16.07.2026.
 //
 import UIKit
+import ProgressHUD
 import os
 
 final class CartViewController: UIViewController {
@@ -13,6 +14,8 @@ final class CartViewController: UIViewController {
     private let viewModel = CartViewModel()
     
     private var paymentCoordinator: PaymentCoordinator?
+    
+    private let sortStorage = CartSortStorage.shared
 
     // MARK: - UI
     private let tableView = UITableView(frame: .zero, style: .plain)
@@ -42,12 +45,35 @@ final class CartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupNavigationBar()
         setupTable()
         setupTotalSection()
         setupOverlay()
-        applySnapshot(animated: false)
+        
         updateTotal()
         updateEmptyState()
+        
+        observeLoadingState()
+        observeItemsState()
+        
+        applySort(sortStorage.selectedSort)
+        
+        if viewModel.isLoading {
+            os_log(.info, log: .default, "⏳ [UI] Показываем HUD из viewDidLoad")
+            ProgressHUD.show("Загрузка корзины...")
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ProgressHUD.dismiss()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Task {
+            await viewModel.loadCart()
+        }
     }
 
     private func setupUI() {
@@ -78,6 +104,19 @@ final class CartViewController: UIViewController {
         ])
         
         bottomToContainer.isActive = true
+    }
+    
+    private func setupNavigationBar() {
+        let sortImage = UIImage(resource: .sort)
+        let sortButton = UIBarButtonItem(
+            image: sortImage,
+            style: .plain,
+            target: self,
+            action: #selector(sortButtonTapped)
+        )
+        sortButton.tintColor = UIColor(resource: .yaBlack)
+        
+        navigationItem.rightBarButtonItem = sortButton
     }
 
     private func setupTable() {
@@ -175,6 +214,39 @@ final class CartViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }
+    
+    // MARK: - Observation
+      private func observeLoadingState() {
+          withObservationTracking {
+              _ = viewModel.isLoading
+          } onChange: { [weak self] in
+              guard let self else { return }
+              
+              Task { @MainActor in
+                  if !self.viewModel.isLoading {
+                      os_log(.info, log: .default, "✅ [UI] Вызываем ProgressHUD.dismiss()")
+                      ProgressHUD.dismiss()
+                  }
+                  
+                  self.observeLoadingState()
+              }
+          }
+      }
+
+      private func observeItemsState() {
+          withObservationTracking {
+              _ = viewModel.items
+          } onChange: { [weak self] in
+              guard let self else { return }
+              Task { @MainActor in
+                  os_log(.info, log: .default, "📱 [UI] Обновляем таблицу. Товаров: %{public}d", self.viewModel.items.count)
+                  self.applySnapshot(animated: true)
+                  self.updateTotal()
+                  self.updateEmptyState()
+                  self.observeItemsState()
+              }
+          }
+      }
 
     // MARK: - Empty State Logic
     private func updateEmptyState() {
@@ -261,5 +333,40 @@ final class CartViewController: UIViewController {
         )
         
         paymentCoordinator?.start()
+    }
+
+    @objc private func sortButtonTapped() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("Сортировка", comment: "Заголовок сортировки"),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        for sortType in CartSortType.allCases {
+            let action = UIAlertAction(title: sortType.localizedTitle, style: .default) { [weak self] _ in
+                self?.applySort(sortType)
+            }
+            alert.addAction(action)
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("Закрыть", comment: "Закрыть"),
+            style: .cancel
+        )
+        alert.addAction(cancelAction)
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.barButtonItem = navigationItem.rightBarButtonItem
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    private func applySort(_ sortType: CartSortType) {
+        sortStorage.selectedSort = sortType
+        
+        viewModel.sortItems(by: sortType)
+        
+        applySnapshot(animated: true)
     }
 }
