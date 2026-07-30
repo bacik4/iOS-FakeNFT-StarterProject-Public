@@ -174,6 +174,31 @@ private extension CollectionDetailViewController {
         viewModel.onStateChanged = { [weak self] state in
             guard let self else { return }
             
+            viewModel.onNftChanged = { [weak self] index in
+                guard let self else {
+                    return
+                }
+                
+                guard index < self.collectionView.numberOfItems(
+                    inSection: 0
+                ) else {
+                    return
+                }
+                
+                let indexPath = IndexPath(
+                    item: index,
+                    section: 0
+                )
+                
+                self.collectionView.reloadItems(
+                    at: [indexPath]
+                )
+            }
+            
+            viewModel.onError = { [weak self] message in
+                self?.showUpdateError(message: message)
+            }
+            
             switch state {
             case .loading:
                 self.activityIndicator.startAnimating()
@@ -228,6 +253,30 @@ private extension CollectionDetailViewController {
         alert.addAction(retryAction)
         alert.addAction(cancelAction)
         
+        present(alert, animated: true)
+    }
+    
+    func showUpdateError(message: String) {
+        guard presentedViewController == nil else {
+            return
+        }
+
+        let alert = UIAlertController(
+            title: NSLocalizedString(
+                "ShowError.message",
+                comment: ""
+            ),
+            message: message,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default
+            )
+        )
+
         present(alert, animated: true)
     }
 }

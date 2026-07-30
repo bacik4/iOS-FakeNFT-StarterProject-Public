@@ -6,6 +6,7 @@ final class CollectionDetailViewModel {
 
     var onStateChanged: ((CollectionDetailViewState) -> Void)?
     var onNftChanged: ((Int) -> Void)?
+    var onError: ((String) -> Void)?
 
     // MARK: - Public Properties
 
@@ -36,6 +37,7 @@ final class CollectionDetailViewModel {
     private let collectionId: String
     private let collectionService: CollectionService
     private let nftService: NftService
+    private let profileService: ProfileService
 
     private let synchronizationQueue = DispatchQueue(
         label: "collection.detail.nfts.synchronization"
@@ -43,20 +45,25 @@ final class CollectionDetailViewModel {
 
     private var collection: NftCollection?
     private var nfts: [Nft] = []
+    private var profile: Profile?
 
     private var favoriteNftIds: Set<String> = []
     private var cartNftIds: Set<String> = []
+
+    private var isUpdatingFavorites = false
 
     // MARK: - Initializer
 
     init(
         collectionId: String,
         collectionService: CollectionService,
-        nftService: NftService
+        nftService: NftService,
+        profileService: ProfileService
     ) {
         self.collectionId = collectionId
         self.collectionService = collectionService
         self.nftService = nftService
+        self.profileService = profileService
     }
 
     // MARK: - Public Methods
@@ -66,6 +73,140 @@ final class CollectionDetailViewModel {
             self?.onStateChanged?(.loading)
         }
 
+        loadProfile()
+    }
+
+    func cellModel(at index: Int) -> NftCellModel {
+        let nft = nfts[index]
+
+        return NftCellModel(
+            id: nft.id,
+            name: nft.name,
+            imageURL: nft.images.first,
+            rating: nft.rating,
+            priceText: String(
+                format: "%.2f ETH",
+                nft.price
+            ),
+            isFavorite: favoriteNftIds.contains(nft.id),
+            isInCart: cartNftIds.contains(nft.id)
+        )
+    }
+
+    func nftId(at index: Int) -> String {
+        nfts[index].id
+    }
+
+    func toggleFavorite(at index: Int) {
+        guard nfts.indices.contains(index),
+              let profile,
+              !isUpdatingFavorites else {
+            return
+        }
+
+        let nftId = nfts[index].id
+        let previousLikes = profile.likes
+
+        var updatedLikes = previousLikes
+
+        if let likedIndex = updatedLikes.firstIndex(of: nftId) {
+            updatedLikes.remove(at: likedIndex)
+        } else {
+            updatedLikes.append(nftId)
+        }
+
+        isUpdatingFavorites = true
+
+        // Оптимистично обновляем интерфейс
+        favoriteNftIds = Set(updatedLikes)
+        onNftChanged?(index)
+
+        profileService.updateProfile(
+            profile: profile,
+            likes: updatedLikes
+        ) { [weak self] result in
+            guard let self else {
+                return
+            }
+
+            self.performOnMain { [weak self] in
+                guard let self else {
+                    return
+                }
+
+                self.isUpdatingFavorites = false
+
+                switch result {
+                case .success(let updatedProfile):
+                    self.profile = updatedProfile
+                    self.favoriteNftIds = Set(
+                        updatedProfile.likes
+                    )
+
+                    self.onNftChanged?(index)
+
+                case .failure(let error):
+                    // Возвращаем прежнее состояние сердца
+                    self.favoriteNftIds = Set(previousLikes)
+
+                    self.onNftChanged?(index)
+                    self.onError?(
+                        error.localizedDescription
+                    )
+                }
+            }
+        }
+    }
+
+    func toggleCart(at index: Int) {
+        guard nfts.indices.contains(index) else {
+            return
+        }
+
+        let nftId = nfts[index].id
+
+        if cartNftIds.contains(nftId) {
+            cartNftIds.remove(nftId)
+        } else {
+            cartNftIds.insert(nftId)
+        }
+
+        onNftChanged?(index)
+    }
+}
+
+// MARK: - Loading
+
+private extension CollectionDetailViewModel {
+
+    func loadProfile() {
+        profileService.loadProfile { [weak self] result in
+            guard let self else {
+                return
+            }
+
+            self.performOnMain { [weak self] in
+                guard let self else {
+                    return
+                }
+
+                switch result {
+                case .success(let profile):
+                    self.profile = profile
+                    self.favoriteNftIds = Set(profile.likes)
+
+                    self.loadCollectionData()
+
+                case .failure(let error):
+                    self.onStateChanged?(
+                        .error(error.localizedDescription)
+                    )
+                }
+            }
+        }
+    }
+
+    func loadCollectionData() {
         collectionService.loadCollection(
             id: collectionId
         ) { [weak self] result in
@@ -92,62 +233,7 @@ final class CollectionDetailViewModel {
         }
     }
 
-    func cellModel(at index: Int) -> NftCellModel {
-        let nft = nfts[index]
-
-        return NftCellModel(
-            id: nft.id,
-            name: nft.name,
-            imageURL: nft.images.first,
-            rating: nft.rating,
-            priceText: String(
-                format: "%.2f ETH",
-                nft.price
-            ),
-            isFavorite: favoriteNftIds.contains(nft.id),
-            isInCart: cartNftIds.contains(nft.id)
-        )
-    }
-
-    func nftId(at index: Int) -> String {
-        nfts[index].id
-    }
-
-    func toggleFavorite(at index: Int) {
-        guard nfts.indices.contains(index) else {
-            return
-        }
-
-        let nftId = nfts[index].id
-
-        if favoriteNftIds.contains(nftId) {
-            favoriteNftIds.remove(nftId)
-        } else {
-            favoriteNftIds.insert(nftId)
-        }
-
-        onNftChanged?(index)
-    }
-
-    func toggleCart(at index: Int) {
-        guard nfts.indices.contains(index) else {
-            return
-        }
-
-        let nftId = nfts[index].id
-
-        if cartNftIds.contains(nftId) {
-            cartNftIds.remove(nftId)
-        } else {
-            cartNftIds.insert(nftId)
-        }
-
-        onNftChanged?(index)
-    }
-
-    // MARK: - Private Methods
-
-    private func loadNfts(ids: [String]) {
+    func loadNfts(ids: [String]) {
         guard !ids.isEmpty else {
             performOnMain { [weak self] in
                 guard let self else {
@@ -157,6 +243,7 @@ final class CollectionDetailViewModel {
                 self.nfts = []
                 self.onStateChanged?(.content)
             }
+
             return
         }
 
@@ -203,6 +290,7 @@ final class CollectionDetailViewModel {
                 self.onStateChanged?(
                     .error(loadingError.localizedDescription)
                 )
+
                 return
             }
 
@@ -211,7 +299,7 @@ final class CollectionDetailViewModel {
         }
     }
 
-    private func performOnMain(
+    func performOnMain(
         _ block: @escaping () -> Void
     ) {
         if Thread.isMainThread {

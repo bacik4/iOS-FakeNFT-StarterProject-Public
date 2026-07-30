@@ -12,7 +12,8 @@ final class CollectionDetailAssembly {
         let viewModel = CollectionDetailViewModel(
             collectionId: collectionId,
             collectionService: servicesAssembly.collectionService,
-            nftService: servicesAssembly.nftService
+            nftService: servicesAssembly.nftService,
+            profileService: servicesAssembly.profileService
         )
 
         let viewController = CollectionDetailViewController(
@@ -22,4 +23,3 @@ final class CollectionDetailAssembly {
         return viewController
     }
 }
-
