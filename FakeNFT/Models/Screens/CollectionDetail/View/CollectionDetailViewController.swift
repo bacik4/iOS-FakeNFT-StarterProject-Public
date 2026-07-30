@@ -172,31 +172,8 @@ private extension CollectionDetailViewController {
     
     func bindViewModel() {
         viewModel.onStateChanged = { [weak self] state in
-            guard let self else { return }
-            
-            viewModel.onNftChanged = { [weak self] index in
-                guard let self else {
-                    return
-                }
-                
-                guard index < self.collectionView.numberOfItems(
-                    inSection: 0
-                ) else {
-                    return
-                }
-                
-                let indexPath = IndexPath(
-                    item: index,
-                    section: 0
-                )
-                
-                self.collectionView.reloadItems(
-                    at: [indexPath]
-                )
-            }
-            
-            viewModel.onError = { [weak self] message in
-                self?.showUpdateError(message: message)
+            guard let self else {
+                return
             }
             
             switch state {
@@ -214,6 +191,32 @@ private extension CollectionDetailViewController {
                 self.collectionView.isHidden = true
                 self.showError(message: message)
             }
+        }
+        
+        viewModel.onNftChanged = { [weak self] index in
+            guard let self else {
+                return
+            }
+            
+            guard index >= 0,
+                  index < self.collectionView.numberOfItems(
+                    inSection: 0
+                  ) else {
+                return
+            }
+            
+            let indexPath = IndexPath(
+                item: index,
+                section: 0
+            )
+            
+            self.collectionView.reloadItems(
+                at: [indexPath]
+            )
+        }
+        
+        viewModel.onError = { [weak self] message in
+            self?.showUpdateError(message: message)
         }
     }
 }
@@ -260,7 +263,7 @@ private extension CollectionDetailViewController {
         guard presentedViewController == nil else {
             return
         }
-
+        
         let alert = UIAlertController(
             title: NSLocalizedString(
                 "ShowError.message",
@@ -269,14 +272,14 @@ private extension CollectionDetailViewController {
             message: message,
             preferredStyle: .alert
         )
-
+        
         alert.addAction(
             UIAlertAction(
                 title: "OK",
                 style: .default
             )
         )
-
+        
         present(alert, animated: true)
     }
 }
@@ -308,14 +311,33 @@ extension CollectionDetailViewController: UICollectionViewDataSource {
         
         cell.configure(with: model)
         
-        cell.onFavoriteButtonTapped = { [weak self] in
-            self?.viewModel.toggleFavorite(at: indexPath.item)
+        cell.onFavoriteButtonTapped = { [weak self, weak cell] in
+            guard let self,
+                  let cell,
+                  let currentIndexPath = self.collectionView.indexPath(
+                    for: cell
+                  ) else {
+                return
+            }
+            
+            self.viewModel.toggleFavorite(
+                at: currentIndexPath.item
+            )
         }
         
-        cell.onCartButtonTapped = { [weak self] in
-            self?.viewModel.toggleCart(at: indexPath.item)
+        cell.onCartButtonTapped = { [weak self, weak cell] in
+            guard let self,
+                  let cell,
+                  let currentIndexPath = self.collectionView.indexPath(
+                    for: cell
+                  ) else {
+                return
+            }
+            
+            self.viewModel.toggleCart(
+                at: currentIndexPath.item
+            )
         }
-        
         return cell
     }
     
