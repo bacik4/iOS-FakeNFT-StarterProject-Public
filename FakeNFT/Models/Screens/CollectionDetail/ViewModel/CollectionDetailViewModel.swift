@@ -7,6 +7,8 @@ final class CollectionDetailViewModel {
     var onStateChanged: ((CollectionDetailViewState) -> Void)?
     var onNftChanged: ((Int) -> Void)?
     var onError: ((String) -> Void)?
+    var onOpenAuthorWebsite: ((URL) -> Void)?
+    var onOpenNftDetails: ((String) -> Void)?
     
     // MARK: - Public Properties
     
@@ -219,6 +221,22 @@ final class CollectionDetailViewModel {
                 }
             }
         }
+    }
+    
+    func didTapAuthor() {
+        guard let websiteURL = collection?.website else {
+            return
+        }
+
+        onOpenAuthorWebsite?(websiteURL)
+    }
+
+    func didSelectNft(at index: Int) {
+        guard nfts.indices.contains(index) else {
+            return
+        }
+
+        onOpenNftDetails?(nfts[index].id)
     }
 }
 

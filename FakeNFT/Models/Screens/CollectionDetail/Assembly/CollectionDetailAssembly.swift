@@ -17,8 +17,15 @@ final class CollectionDetailAssembly {
             orderService: servicesAssembly.orderService
         )
         
-        return CollectionDetailViewController(
-            viewModel: viewModel
+        let nftDetailAssembly = NftDetailAssembly(
+            servicesAssembler: servicesAssembly
         )
+        
+        let viewController = CollectionDetailViewController(
+            viewModel: viewModel,
+            nftDetailAssembly: nftDetailAssembly
+        )
+        
+        return viewController
     }
 }

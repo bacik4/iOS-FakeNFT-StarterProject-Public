@@ -5,6 +5,7 @@ final class CollectionDetailViewController: UIViewController {
     // MARK: - Private Properties
     
     private let viewModel: CollectionDetailViewModel
+    private let nftDetailAssembly: NftDetailAssembly
     
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -15,11 +16,14 @@ final class CollectionDetailViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init(viewModel: CollectionDetailViewModel) {
+    init(
+        viewModel: CollectionDetailViewModel,
+        nftDetailAssembly: NftDetailAssembly
+    ) {
         self.viewModel = viewModel
+        self.nftDetailAssembly = nftDetailAssembly
         super.init(nibName: nil, bundle: nil)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -218,6 +222,36 @@ private extension CollectionDetailViewController {
         viewModel.onError = { [weak self] message in
             self?.showUpdateError(message: message)
         }
+        
+        viewModel.onOpenAuthorWebsite = { [weak self] url in
+            guard let self else {
+                return
+            }
+            
+            let webViewController = WebViewController(url: url)
+            
+            self.navigationController?.pushViewController(
+                webViewController,
+                animated: true
+            )
+        }
+        
+        viewModel.onOpenNftDetails = { [weak self] nftId in
+            guard let self else {
+                return
+            }
+            
+            let input = NftDetailInput(id: nftId)
+            
+            let viewController = self.nftDetailAssembly.build(
+                with: input
+            )
+            
+            self.navigationController?.pushViewController(
+                viewController,
+                animated: true
+            )
+        }
     }
 }
 
@@ -369,10 +403,29 @@ extension CollectionDetailViewController: UICollectionViewDataSource {
             header.configure(with: model)
         }
         
+        header.onAuthorTapped = { [weak self] in
+            self?.viewModel.didTapAuthor()
+        }
+        
         return header
     }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension CollectionDetailViewController: UICollectionViewDelegate {}
+extension CollectionDetailViewController: UICollectionViewDelegate {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        collectionView.deselectItem(
+            at: indexPath,
+            animated: true
+        )
+        
+        viewModel.didSelectNft(
+            at: indexPath.item
+        )
+    }
+}
