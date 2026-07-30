@@ -112,7 +112,7 @@ extension StatisticViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension StatisticViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.tableViewCellHeight
+        Constants.TableView.tableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
