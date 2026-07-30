@@ -22,4 +22,8 @@ struct Constants {
         static let horizontalInsets: CGFloat = 16
         static let cellHeight: CGFloat = 192
     }
+    
+    struct DispatchGroup {
+        static let queueLabel = "UserCollectionViewModel.synchronization"
+    }
 }

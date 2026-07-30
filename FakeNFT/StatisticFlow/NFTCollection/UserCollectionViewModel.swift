@@ -31,7 +31,7 @@ final class UserCollectionViewModel {
     }
     
     // MARK: - Public Methods
-    func nft(at index: Int) -> NFTCollectionCellViewModel {
+    func getNft(at index: Int) -> NFTCollectionCellViewModel {
         nfts[index]
     }
     
@@ -46,7 +46,7 @@ final class UserCollectionViewModel {
         }
         
         let group = DispatchGroup()
-        let synchronizationQueue = DispatchQueue(label: "UserCollectionViewModel.synchronization")
+        let synchronizationQueue = DispatchQueue(label: Constants.DispatchGroup.queueLabel)
         var loadedNFTs = Array<NFTCollectionCellViewModel?>(repeating: nil, count: nftIDs.count)
         
         for (index, id) in nftIDs.enumerated() {

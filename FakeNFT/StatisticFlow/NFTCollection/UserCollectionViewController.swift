@@ -109,7 +109,7 @@ extension UserCollectionViewController:UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let nft = viewModel.nft(at: indexPath.row)
+        let nft = viewModel.getNft(at: indexPath.row)
         cell.configure(viewModel: nft)
         
         return cell
