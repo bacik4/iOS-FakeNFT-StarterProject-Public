@@ -9,3 +9,6 @@
 "UserProfile.goToWebButton" = "Go to website";
 "UserProfile.collectionButton" = "NFT Collection";
 "UserProfileViewController.header" = "Profile";
+"SortButton.actionSheetHeader" = "Sort by";
+"SortButton.firstAction" = "Rating";
+"SortButton.secondAction" = "Name";

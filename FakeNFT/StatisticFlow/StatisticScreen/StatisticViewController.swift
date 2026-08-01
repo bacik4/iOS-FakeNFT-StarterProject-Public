@@ -56,7 +56,27 @@ final class StatisticViewController: UIViewController {
     }
     
     @objc private func filterButtonTapped() {
-        //TODO: Логика фильтрации
+        let alertController = UIAlertController(
+            title: NSLocalizedString("SortButton.actionSheetHeader", comment: ""),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let ratingAction = UIAlertAction(title: NSLocalizedString("SortButton.firstAction", comment: ""), style: .default) { [weak self] _ in
+            self?.viewModel.sortUsers(by: .rating)
+        }
+        
+        let nameAction = UIAlertAction(title: NSLocalizedString("SortButton.secondAction", comment: ""), style: .default) { [weak self] _ in
+            self?.viewModel.sortUsers(by: .name)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
+        
+        alertController.addAction(ratingAction)
+        alertController.addAction(nameAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
 }
 

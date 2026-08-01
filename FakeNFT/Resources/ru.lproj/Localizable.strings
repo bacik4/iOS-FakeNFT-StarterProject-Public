@@ -9,3 +9,6 @@
 "UserProfile.goToWebButton" = "Перейти на сайт пользователя";
 "UserProfile.collectionButton" = "Коллекция NFT";
 "UserProfileViewController.header" = "Профиль";
+"SortButton.actionSheetHeader" = "Сортировка";
+"SortButton.firstAction" = "По рейтингу";
+"SortButton.secondAction" = "По имени";
