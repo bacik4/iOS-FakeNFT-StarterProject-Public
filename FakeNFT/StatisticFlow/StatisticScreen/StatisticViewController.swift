@@ -10,6 +10,9 @@ import UIKit
 final class StatisticViewController: UIViewController {
     
     //MARK: - Private Properties
+    private let viewModel: StatisticViewModel
+    private let nftService: NftService
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -22,6 +25,18 @@ final class StatisticViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Initializers
+    init(viewModel: StatisticViewModel, nftService: NftService) {
+        self.viewModel = viewModel
+        self.nftService = nftService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        nil
+    }
+    
     //MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +45,14 @@ final class StatisticViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        viewModel.onUsersChanged = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        viewModel.loadUsers()
     }
     
     @objc private func filterButtonTapped() {
@@ -66,7 +89,7 @@ extension StatisticViewController {
 //MARK: - UITableViewDataSource
 extension StatisticViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Constants.mockUsersCount
+        viewModel.numberOfUsers
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +97,13 @@ extension StatisticViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(number: indexPath.row + 1, avatar: nil, name: "UserTest \(indexPath.row + 1)", rating: 15)
+        let user = viewModel.user(at: indexPath.row)
+        cell.configure(
+            number: indexPath.row + 1,
+            avatarURL: user.avatarURL,
+            name: user.name,
+            rating: user.rating
+        )
         
         return cell
     }
@@ -83,11 +112,23 @@ extension StatisticViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension StatisticViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.tableViewCellHeight
+        Constants.TableView.tableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let userViewController = UserProfileViewController()
+        
+        let user = viewModel.didSelectUser(at: indexPath.row)
+        
+        let profileViewModel = UserProfileViewModel(
+            avatarURL: user.avatarURL,
+            name: user.name,
+            description: user.description ?? "",
+            nftCount: user.nftCount,
+            website: user.website,
+            nftIDs: user.nftIDs
+        )
+        
+        let userViewController = UserProfileViewController(viewModel: profileViewModel, nftService: nftService)
         
         navigationController?.pushViewController(userViewController, animated: true)
     }

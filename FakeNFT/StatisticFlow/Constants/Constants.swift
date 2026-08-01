@@ -7,12 +7,23 @@
 
 import Foundation
 
-enum Constants {
-    static let mockUsersCount = 16
-    static let tableViewCellHeight: CGFloat = 88
+struct Constants {
     
-    static let mockNftCount = 8
-    static let collectionViewMinimumLineSpacingForSection: CGFloat = 20
-    static let collectionViewMinimumInteritemSpacingForSection: CGFloat = 9
-    static let collectionViewCellHeight = 192
+    struct TableView {
+        static let tableViewCellHeight: CGFloat = 88
+    }
+    
+    struct CollectionView {
+        static let minimumLineSpacingForSection: CGFloat = 20
+        static let minimumInteritemSpacingForSection: CGFloat = 9
+    }
+    
+    struct CollectionViewFlowLayout {
+        static let horizontalInsets: CGFloat = 16
+        static let cellHeight: CGFloat = 192
+    }
+    
+    struct DispatchGroup {
+        static let queueLabel = "UserCollectionViewModel.synchronization"
+    }
 }

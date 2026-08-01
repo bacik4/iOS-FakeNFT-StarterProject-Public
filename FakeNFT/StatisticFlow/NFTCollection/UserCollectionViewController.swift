@@ -6,16 +6,18 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class UserCollectionViewController: UIViewController {
     
     // MARK: - Private Properties
+    private let viewModel: UserCollectionViewModel
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.minimumLineSpacing = Constants.collectionViewMinimumLineSpacingForSection
-        layout.minimumInteritemSpacing = Constants.collectionViewMinimumInteritemSpacingForSection
+        layout.minimumLineSpacing = Constants.CollectionView.minimumLineSpacingForSection
+        layout.minimumInteritemSpacing = Constants.CollectionView.minimumInteritemSpacingForSection
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor(resource: .nftWhite)
@@ -26,6 +28,15 @@ final class UserCollectionViewController: UIViewController {
         return collectionView
     }()
     
+    init(viewModel: UserCollectionViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        nil
+    }
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -35,6 +46,38 @@ final class UserCollectionViewController: UIViewController {
         collectionView.delegate = self
         
         setupUI()
+        bindViewModel()
+        
+        viewModel.loadNFTs()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        ProgressHUD.dismiss()
+    }
+    
+    // MARK: - Private Methods
+    private func bindViewModel() {
+        viewModel.onLoadingChanged = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                
+                if isLoading {
+                    ProgressHUD.show()
+                    self.collectionView.isUserInteractionEnabled = false
+                } else {
+                    ProgressHUD.dismiss()
+                    self.collectionView.isUserInteractionEnabled = true
+                }
+            }
+        }
+        
+        viewModel.onNFTsChanged = { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
     }
 }
 
@@ -48,8 +91,8 @@ extension UserCollectionViewController {
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -58,7 +101,7 @@ extension UserCollectionViewController {
 //MARK: - CollectionViewDataSource
 extension UserCollectionViewController:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        Constants.mockNftCount
+        viewModel.numberOfNFTs
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -66,7 +109,8 @@ extension UserCollectionViewController:UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(image: nil, name: "NFT \(indexPath.row + 1)", price: "1.23 ETH", ratingImage: UIImage(resource: .ratingTwoStars), isLiked: false)
+        let nft = viewModel.getNft(at: indexPath.row)
+        cell.configure(viewModel: nft)
         
         return cell
     }
@@ -75,19 +119,23 @@ extension UserCollectionViewController:UICollectionViewDataSource {
 //MARK: - CollectionViewDelegateFlowLayout
 extension UserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let spacing: CGFloat = 9
-        let width = (collectionView.bounds.width - spacing * 2) / 3
-        let height = Constants.tableViewCellHeight
+        let horizontalInsets = Constants.CollectionViewFlowLayout.horizontalInsets
+        let spacing: CGFloat = Constants.CollectionView.minimumInteritemSpacingForSection
+        let availableWidth = collectionView.bounds.width - horizontalInsets * 2 - spacing * 2
+        let width = floor(availableWidth / 3)
         
-        return CGSize(width: width, height: height)
+        return CGSize(width: width, height: Constants.CollectionViewFlowLayout.cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        Constants.collectionViewMinimumLineSpacingForSection
+        Constants.CollectionView.minimumLineSpacingForSection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        Constants.collectionViewMinimumInteritemSpacingForSection
+        Constants.CollectionView.minimumInteritemSpacingForSection
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
     }
 }
-
