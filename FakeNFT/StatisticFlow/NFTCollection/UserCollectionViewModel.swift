@@ -12,6 +12,7 @@ final class UserCollectionViewModel {
     // MARK: - Callback
     var onNFTsChanged: (() -> Void)?
     var onLoadingChanged: ((Bool) -> Void)?
+    var onNFTChanged: ((Int) -> Void)?
     
     // MARK: - Public Properties
     var numberOfNFTs: Int {

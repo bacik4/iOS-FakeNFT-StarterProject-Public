@@ -62,7 +62,6 @@ final class UserCollectionViewController: UIViewController {
         viewModel.onLoadingChanged = { [weak self] isLoading in
             DispatchQueue.main.async {
                 guard let self else { return }
-                
                 if isLoading {
                     ProgressHUD.show()
                     self.collectionView.isUserInteractionEnabled = false
@@ -76,6 +75,14 @@ final class UserCollectionViewController: UIViewController {
         viewModel.onNFTsChanged = { [weak self] in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
+            }
+        }
+        
+        viewModel.onNFTChanged = { [weak self] index in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadItems(
+                    at: [IndexPath(item: index, section: 0)]
+                )
             }
         }
     }
