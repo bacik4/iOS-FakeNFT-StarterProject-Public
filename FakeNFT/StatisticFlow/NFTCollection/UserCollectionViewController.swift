@@ -123,6 +123,10 @@ extension UserCollectionViewController:UICollectionViewDataSource {
             self?.viewModel.toggleLike(at: indexPath.row)
         }
         
+        cell.onCartButtonTapped = { [weak self] in
+            self?.viewModel.toggleCart(at: indexPath.row)
+        }
+        
         return cell
     }
 }

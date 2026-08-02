@@ -66,7 +66,8 @@ final class UserCollectionViewModel {
                         name: nft.name,
                         price: "\(nft.price) ETH",
                         rating: nft.rating,
-                        isLiked: false
+                        isLiked: false,
+                        isInCart: false
                     )
                     
                     synchronizationQueue.sync {
@@ -91,5 +92,10 @@ final class UserCollectionViewModel {
     func toggleLike(at index: Int) {
         nfts[index].isLiked.toggle()
         onNFTsChanged?()
+    }
+    
+    func toggleCart(at index: Int) {
+        nfts[index].isInCart.toggle()
+        onNFTChanged?(index)
     }
 }

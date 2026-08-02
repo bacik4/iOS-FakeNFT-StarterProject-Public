@@ -14,4 +14,5 @@ struct NFTCollectionCellViewModel {
     let price: String
     let rating: Int
     var isLiked: Bool
+    var isInCart: Bool
 }
