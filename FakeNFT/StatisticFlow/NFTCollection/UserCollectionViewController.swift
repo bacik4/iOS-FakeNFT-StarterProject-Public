@@ -112,6 +112,10 @@ extension UserCollectionViewController:UICollectionViewDataSource {
         let nft = viewModel.getNft(at: indexPath.row)
         cell.configure(viewModel: nft)
         
+        cell.onLikeButtonTapped = { [weak self] in
+            self?.viewModel.toggleLike(at: indexPath.row)
+        }
+        
         return cell
     }
 }

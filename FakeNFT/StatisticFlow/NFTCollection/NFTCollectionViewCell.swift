@@ -9,6 +9,9 @@ import Kingfisher
 
 final class NFTCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Public Properties
+    var onLikeButtonTapped: (() -> Void)?
+    
     // MARK: - Private Properties
     private lazy var nftImageView = UIImageView()
     private lazy var likeButton = UIButton()
@@ -38,6 +41,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
         priceLabel.text = nil
         likeButton.setImage(nil, for: .normal)
+        onLikeButtonTapped = nil
     }
     
     // MARK: - Public Methods
@@ -71,6 +75,12 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Private Methods
+    
+    @objc private func likeButtonTapped() {
+        onLikeButtonTapped?()
+    }
+    
     // MARK: - UI Settings
     private func configureAppearance() {
         nftImageView.backgroundColor = UIColor(resource: .nftLightGrey)
@@ -90,6 +100,8 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         priceLabel.numberOfLines = 1
         
         cartButton.setImage(UIImage(resource: .cartIcon), for: .normal)
+        
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     
     private func addSubviews() {

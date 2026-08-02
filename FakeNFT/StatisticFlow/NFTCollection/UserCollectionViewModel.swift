@@ -60,6 +60,7 @@ final class UserCollectionViewModel {
                 switch result {
                 case .success(let nft):
                     let cellViewModel = NFTCollectionCellViewModel(
+                        id: nft.id,
                         imageURL: nft.images.first,
                         name: nft.name,
                         price: "\(nft.price) ETH",
@@ -84,5 +85,10 @@ final class UserCollectionViewModel {
             self.onNFTsChanged?()
             self.onLoadingChanged?(false)
         }
+    }
+    
+    func toggleLike(at index: Int) {
+        nfts[index].isLiked.toggle()
+        onNFTsChanged?()
     }
 }

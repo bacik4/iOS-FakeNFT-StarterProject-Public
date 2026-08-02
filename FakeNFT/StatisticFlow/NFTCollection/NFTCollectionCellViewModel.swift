@@ -8,9 +8,10 @@
 import Foundation
 
 struct NFTCollectionCellViewModel {
+    let id: String
     let imageURL: URL?
     let name: String
     let price: String
     let rating: Int
-    let isLiked: Bool
+    var isLiked: Bool
 }
