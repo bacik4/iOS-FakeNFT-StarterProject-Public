@@ -9,6 +9,7 @@ enum NetworkClientError: Error {
 }
 
 extension NetworkClientError: LocalizedError {
+
     var errorDescription: String? {
         switch self {
         case .httpStatusCode(let code):
@@ -30,6 +31,7 @@ extension NetworkClientError: LocalizedError {
 }
 
 protocol NetworkClient {
+
     @discardableResult
     func send(
         request: NetworkRequest,
@@ -46,7 +48,10 @@ protocol NetworkClient {
     ) -> NetworkTask?
 }
 
+// MARK: - Default parameters
+
 extension NetworkClient {
+
     @discardableResult
     func send(
         request: NetworkRequest,
@@ -75,19 +80,32 @@ extension NetworkClient {
 }
 
 struct DefaultNetworkClient: NetworkClient {
+
+    // MARK: - Private Properties
+
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
+    private let decodingQueue: DispatchQueue
+
+    // MARK: - Initializer
 
     init(
         session: URLSession = .shared,
         decoder: JSONDecoder = JSONDecoder(),
-        encoder: JSONEncoder = JSONEncoder()
+        encoder: JSONEncoder = JSONEncoder(),
+        decodingQueue: DispatchQueue = DispatchQueue(
+            label: "DefaultNetworkClient.decoding",
+            qos: .userInitiated
+        )
     ) {
         self.session = session
         self.decoder = decoder
         self.encoder = encoder
+        self.decodingQueue = decodingQueue
     }
+
+    // MARK: - Data Request
 
     @discardableResult
     func send(
@@ -153,6 +171,8 @@ struct DefaultNetworkClient: NetworkClient {
         return DefaultNetworkTask(dataTask: task)
     }
 
+    // MARK: - Decodable Request
+
     @discardableResult
     func send<T: Decodable>(
         request: NetworkRequest,
@@ -160,20 +180,31 @@ struct DefaultNetworkClient: NetworkClient {
         completionQueue: DispatchQueue,
         onResponse: @escaping (Result<T, Error>) -> Void
     ) -> NetworkTask? {
-        send(
+        let complete: (Result<T, Error>) -> Void = { result in
+            completionQueue.async {
+                onResponse(result)
+            }
+        }
+
+        /*
+         Данные передаются на decodingQueue, поэтому JSONDecoder.decode
+         выполняется не на главном потоке.
+         */
+        return send(
             request: request,
-            completionQueue: completionQueue
+            completionQueue: decodingQueue
         ) { result in
             switch result {
             case .success(let data):
-                self.parse(
+                let parsedResult: Result<T, Error> = self.parse(
                     data: data,
-                    type: type,
-                    onResponse: onResponse
+                    type: type
                 )
 
+                complete(parsedResult)
+
             case .failure(let error):
-                onResponse(.failure(error))
+                complete(.failure(error))
             }
         }
     }
@@ -184,7 +215,6 @@ struct DefaultNetworkClient: NetworkClient {
         request: NetworkRequest
     ) -> URLRequest? {
         guard let endpoint = request.endpoint else {
-            assertionFailure("Empty endpoint")
             return nil
         }
 
@@ -226,19 +256,18 @@ struct DefaultNetworkClient: NetworkClient {
 
     private func parse<T: Decodable>(
         data: Data,
-        type: T.Type,
-        onResponse: @escaping (Result<T, Error>) -> Void
-    ) {
+        type: T.Type
+    ) -> Result<T, Error> {
         do {
             let response = try decoder.decode(
                 type,
                 from: data
             )
 
-            onResponse(.success(response))
+            return .success(response)
         } catch {
-            onResponse(
-                .failure(NetworkClientError.parsingError)
+            return .failure(
+                NetworkClientError.parsingError
             )
         }
     }

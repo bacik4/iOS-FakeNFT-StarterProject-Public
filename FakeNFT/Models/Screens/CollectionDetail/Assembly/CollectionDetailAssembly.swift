@@ -12,14 +12,21 @@ final class CollectionDetailAssembly {
         let viewModel = CollectionDetailViewModel(
             collectionId: collectionId,
             collectionService: servicesAssembly.collectionService,
-            nftService: servicesAssembly.nftService
+            nftService: servicesAssembly.nftService,
+            profileService: servicesAssembly.profileService,
+            orderService: servicesAssembly.orderService
+        )
+
+        let nftDetailAssembly = NftDetailAssembly(
+            servicesAssembler: servicesAssembly
         )
 
         let viewController = CollectionDetailViewController(
-            viewModel: viewModel
+            viewModel: viewModel,
+            nftDetailAssembly: nftDetailAssembly,
+            imageLoader: servicesAssembly.imageLoader
         )
 
         return viewController
     }
 }
-
