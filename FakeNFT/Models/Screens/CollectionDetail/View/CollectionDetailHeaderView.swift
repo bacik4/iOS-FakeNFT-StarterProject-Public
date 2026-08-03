@@ -8,7 +8,7 @@ final class CollectionDetailHeaderView: UICollectionReusableView {
         describing: CollectionDetailHeaderView.self
     )
     
-    private var imageLoadingTask: URLSessionDataTask?
+    private var imageLoadingTask: ImageLoadingTask?
     private var currentCoverURL: URL?
     
     private let coverImageView: UIImageView = {
@@ -69,26 +69,36 @@ final class CollectionDetailHeaderView: UICollectionReusableView {
         onAuthorTapped = nil
     }
     
-    func configure(with model: CollectionHeaderModel) {
+    func configure(
+        with model: CollectionHeaderModel,
+        imageLoader: ImageLoading
+    ) {
         imageLoadingTask?.cancel()
-        
+        imageLoadingTask = nil
+
         currentCoverURL = model.coverURL
+
         nameLabel.text = model.name
         descriptionLabel.text = model.description
         authorLabel.text = model.author
-        coverImageView.image = UIImage(systemName: "photo")
-        
+
+        coverImageView.image = UIImage(
+            systemName: "photo"
+        )
+
         let coverURL = model.coverURL
-        
-        imageLoadingTask = ImageLoader.shared.loadImage(
+
+        imageLoadingTask = imageLoader.loadImage(
             from: coverURL
         ) { [weak self] image in
-            guard let self else { return }
-            guard self.currentCoverURL == coverURL else { return }
-            
+            guard let self,
+                  self.currentCoverURL == coverURL else {
+                return
+            }
+
             self.imageLoadingTask = nil
             self.coverImageView.image =
-            image ?? UIImage(systemName: "photo")
+                image ?? UIImage(systemName: "photo")
         }
     }
 }

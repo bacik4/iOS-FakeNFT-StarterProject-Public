@@ -15,7 +15,7 @@ final class NftCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Private Properties
     
-    private var imageLoadingTask: URLSessionDataTask?
+    private var imageLoadingTask: ImageLoadingTask?
     private var currentImageURL: URL?
     
     private let nftImageView: UIImageView = {
@@ -131,55 +131,68 @@ final class NftCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         imageLoadingTask?.cancel()
         imageLoadingTask = nil
         currentImageURL = nil
-        
-        nftImageView.image = UIImage(systemName: "photo")
-        
+
+        nftImageView.image = UIImage(
+            systemName: "photo"
+        )
+
         nameLabel.text = nil
         priceLabel.text = nil
-        
+
         updateRating(0)
         updateFavoriteButton(isFavorite: false)
         updateCartButton(isInCart: false)
-        
+
         onFavoriteButtonTapped = nil
         onCartButtonTapped = nil
     }
     
     // MARK: - Public Methods
     
-    func configure(with model: NftCellModel) {
+    func configure(
+        with model: NftCellModel,
+        imageLoader: ImageLoading
+    ) {
         imageLoadingTask?.cancel()
         imageLoadingTask = nil
-        
+
         nameLabel.text = model.name
         priceLabel.text = model.priceText
-        
+
         updateRating(model.rating)
-        updateFavoriteButton(isFavorite: model.isFavorite)
-        updateCartButton(isInCart: model.isInCart)
-        
-        nftImageView.image = UIImage(systemName: "photo")
-        
+        updateFavoriteButton(
+            isFavorite: model.isFavorite
+        )
+        updateCartButton(
+            isInCart: model.isInCart
+        )
+
+        nftImageView.image = UIImage(
+            systemName: "photo"
+        )
+
         guard let imageURL = model.imageURL else {
             currentImageURL = nil
             return
         }
-        
+
         currentImageURL = imageURL
-        
-        imageLoadingTask = ImageLoader.shared.loadImage(
+
+        imageLoadingTask = imageLoader.loadImage(
             from: imageURL
         ) { [weak self] image in
-            guard let self else { return }
-            guard self.currentImageURL == imageURL else { return }
-            
+            guard let self,
+                  self.currentImageURL == imageURL else {
+                return
+            }
+
             self.imageLoadingTask = nil
             self.nftImageView.image =
-            image ?? UIImage(systemName: "photo")
+                image ?? UIImage(systemName: "photo")
         }
     }
 }

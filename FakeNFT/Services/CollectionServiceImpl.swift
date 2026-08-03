@@ -1,6 +1,6 @@
 import Foundation
 
-final class OrderServiceImpl: OrderService {
+final class CollectionServiceImpl: CollectionService {
 
     private let networkClient: NetworkClient
 
@@ -9,29 +9,28 @@ final class OrderServiceImpl: OrderService {
     }
 
     @discardableResult
-    func loadOrder(
-        completion: @escaping OrderCompletion
+    func loadCollections(
+        completion: @escaping CollectionsCompletion
     ) -> NetworkTask? {
-        let request = OrderRequest()
+        let request = CollectionsRequest()
 
         return networkClient.send(
             request: request,
-            type: Order.self,
+            type: [NftCollection].self,
             onResponse: completion
         )
     }
 
     @discardableResult
-    func updateOrder(
-        nfts: [String],
-        completion: @escaping OrderCompletion
+    func loadCollection(
+        id: String,
+        completion: @escaping CollectionCompletion
     ) -> NetworkTask? {
-        let dto = OrderUpdateDto(nfts: nfts)
-        let request = OrderUpdateRequest(dto: dto)
+        let request = CollectionRequestById(id: id)
 
         return networkClient.send(
             request: request,
-            type: Order.self,
+            type: NftCollection.self,
             onResponse: completion
         )
     }

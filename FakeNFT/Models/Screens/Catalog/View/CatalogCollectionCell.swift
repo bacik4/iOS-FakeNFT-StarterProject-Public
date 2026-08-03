@@ -6,7 +6,7 @@ final class CatalogCollectionCell: UITableViewCell {
         describing: CatalogCollectionCell.self
     )
 
-    private var imageLoadingTask: URLSessionDataTask?
+    private var imageLoadingTask: ImageLoadingTask?
     private var currentCoverURL: URL?
 
     private let coverImageView: UIImageView = {
@@ -62,7 +62,10 @@ final class CatalogCollectionCell: UITableViewCell {
         nftCountLabel.text = nil
     }
 
-    func configure(with model: CatalogCellModel) {
+    func configure(
+        with model: CatalogCellModel,
+        imageLoader: ImageLoading
+    ) {
         imageLoadingTask?.cancel()
         imageLoadingTask = nil
 
@@ -71,14 +74,15 @@ final class CatalogCollectionCell: UITableViewCell {
 
         nameLabel.text = model.name
         nftCountLabel.text = model.nftCountText
-        coverImageView.image = UIImage(systemName: "photo")
+        coverImageView.image = UIImage(
+            systemName: "photo"
+        )
 
-        imageLoadingTask = ImageLoader.shared.loadImage(
+        imageLoadingTask = imageLoader.loadImage(
             from: coverURL
         ) { [weak self] image in
-            guard let self else { return }
-
-            guard self.currentCoverURL == coverURL else {
+            guard let self,
+                  self.currentCoverURL == coverURL else {
                 return
             }
 

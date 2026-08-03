@@ -75,6 +75,12 @@
 		AB9EC217301B9D5E00DAEAEB /* OrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC216301B9D5D00DAEAEB /* OrderService.swift */; };
 		AB9EC219301B9DAD00DAEAEB /* OrderServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC218301B9DAB00DAEAEB /* OrderServiceImpl.swift */; };
 		AB9EC21B301BA3E400DAEAEB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC21A301BA3E300DAEAEB /* WebViewController.swift */; };
+		AB9EC23F30208BD500DAEAEB /* CollectionServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC23E30208BD000DAEAEB /* CollectionServiceImpl.swift */; };
+		AB9EC24130208D6800DAEAEB /* NftServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC24030208D6700DAEAEB /* NftServiceImpl.swift */; };
+		AB9EC24330208DAB00DAEAEB /* ProfileServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC24230208DA500DAEAEB /* ProfileServiceImpl.swift */; };
+		AB9EC245302091CF00DAEAEB /* CatalogSortStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC244302091CD00DAEAEB /* CatalogSortStorage.swift */; };
+		AB9EC247302091FB00DAEAEB /* UserDefaultsCatalogSortStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC246302091F700DAEAEB /* UserDefaultsCatalogSortStorage.swift */; };
+		AB9EC2493020984F00DAEAEB /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC2483020984B00DAEAEB /* ImageLoading.swift */; };
 		E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */; };
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
 		E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */; };
@@ -168,6 +174,12 @@
 		AB9EC216301B9D5D00DAEAEB /* OrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderService.swift; sourceTree = "<group>"; };
 		AB9EC218301B9DAB00DAEAEB /* OrderServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderServiceImpl.swift; sourceTree = "<group>"; };
 		AB9EC21A301BA3E300DAEAEB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		AB9EC23E30208BD000DAEAEB /* CollectionServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionServiceImpl.swift; sourceTree = "<group>"; };
+		AB9EC24030208D6700DAEAEB /* NftServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftServiceImpl.swift; sourceTree = "<group>"; };
+		AB9EC24230208DA500DAEAEB /* ProfileServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceImpl.swift; sourceTree = "<group>"; };
+		AB9EC244302091CD00DAEAEB /* CatalogSortStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSortStorage.swift; sourceTree = "<group>"; };
+		AB9EC246302091F700DAEAEB /* UserDefaultsCatalogSortStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsCatalogSortStorage.swift; sourceTree = "<group>"; };
+		AB9EC2483020984B00DAEAEB /* ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
 		E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E1CD40D82A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -326,7 +338,10 @@
 				0C79EE6B2A76DE2E00EE90EA /* ServicesAssembly.swift */,
 				558E39E62C68CE0900FB86AC /* NftService.swift */,
 				AB9EC218301B9DAB00DAEAEB /* OrderServiceImpl.swift */,
+				AB9EC23E30208BD000DAEAEB /* CollectionServiceImpl.swift */,
 				AB9EC216301B9D5D00DAEAEB /* OrderService.swift */,
+				AB9EC24030208D6700DAEAEB /* NftServiceImpl.swift */,
+				AB9EC24230208DA500DAEAEB /* ProfileServiceImpl.swift */,
 				AB9EC20A301B757A00DAEAEB /* ProfileService.swift */,
 				AB455CF73011094B00673A46 /* CollectionService.swift */,
 				0CFCB73F2A78002A0009A829 /* ExamplePutService.swift */,
@@ -432,6 +447,8 @@
 		AB455D0D3011201700673A46 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				AB9EC246302091F700DAEAEB /* UserDefaultsCatalogSortStorage.swift */,
+				AB9EC244302091CD00DAEAEB /* CatalogSortStorage.swift */,
 				AB455D163011206800673A46 /* CatalogViewModel.swift */,
 				AB455D0A3011201700673A46 /* CatalogCellModel.swift */,
 				AB455D0B3011201700673A46 /* CatalogSortOption.swift */,
@@ -502,6 +519,7 @@
 		AB455D933017625C00673A46 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AB9EC2483020984B00DAEAEB /* ImageLoading.swift */,
 				AB455D943017626600673A46 /* ImageLoader.swift */,
 			);
 			path = Services;
@@ -730,6 +748,7 @@
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
 				0C79EE6C2A76DE2E00EE90EA /* ServicesAssembly.swift in Sources */,
+				AB9EC24330208DAB00DAEAEB /* ProfileServiceImpl.swift in Sources */,
 				AB9EC20B301B758300DAEAEB /* ProfileService.swift in Sources */,
 				0CFCB74E2A7817DC0009A829 /* NftStorage.swift in Sources */,
 				AB9EC213301B9D2200DAEAEB /* OrderRequest.swift in Sources */,
@@ -741,8 +760,10 @@
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,
 				AB455CF2300FB8DC00673A46 /* CollectionRequestById.swift in Sources */,
 				AB455D89301222FE00673A46 /* NftCellModel.swift in Sources */,
+				AB9EC23F30208BD500DAEAEB /* CollectionServiceImpl.swift in Sources */,
 				AB455D103011201700673A46 /* CatalogCellModel.swift in Sources */,
 				AB455D87301222F100673A46 /* CollectionHeaderModel.swift in Sources */,
+				AB9EC2493020984F00DAEAEB /* ImageLoading.swift in Sources */,
 				AB455D113011201700673A46 /* CatalogSortOption.swift in Sources */,
 				AB455D123011201700673A46 /* CatalogViewState.swift in Sources */,
 				0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */,
@@ -752,7 +773,10 @@
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
 				0CFCB7492A7808900009A829 /* TestCatalogController.swift in Sources */,
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
+				AB9EC245302091CF00DAEAEB /* CatalogSortStorage.swift in Sources */,
+				AB9EC24130208D6800DAEAEB /* NftServiceImpl.swift in Sources */,
 				AB9EC205301B5F0300DAEAEB /* CollectionDetailHeaderView.swift in Sources */,
+				AB9EC247302091FB00DAEAEB /* UserDefaultsCatalogSortStorage.swift in Sources */,
 				AB455D83301222CE00673A46 /* CollectionDetailViewModel.swift in Sources */,
 				AB9EC21B301BA3E400DAEAEB /* WebViewController.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,
