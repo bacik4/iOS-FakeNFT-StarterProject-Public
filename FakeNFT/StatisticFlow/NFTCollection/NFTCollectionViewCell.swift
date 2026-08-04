@@ -9,6 +9,10 @@ import Kingfisher
 
 final class NFTCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Callbacks
+    var onLikeButtonTapped: (() -> Void)?
+    var onCartButtonTapped: (() -> Void)?
+    
     // MARK: - Private Properties
     private lazy var nftImageView = UIImageView()
     private lazy var likeButton = UIButton()
@@ -38,6 +42,9 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
         priceLabel.text = nil
         likeButton.setImage(nil, for: .normal)
+        cartButton.setImage(nil, for: .normal)
+        onLikeButtonTapped = nil
+        onCartButtonTapped = nil
     }
     
     // MARK: - Public Methods
@@ -51,9 +58,17 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         : UIImage(resource: .likeInactiveIcon)
         
         likeButton.setImage(likeImage, for: .normal)
+        
+        let cartImage = viewModel.isInCart
+        ? UIImage(resource: .cartIconDelete)
+        : UIImage(resource: .cartIconAdd)
+        
+        cartButton.setImage(cartImage, for: .normal)
+        
         nftImageView.kf.setImage(with: viewModel.imageURL)
     }
     
+    // MARK: - Private Methods
     private func makeRatingImage(rating: Int) -> UIImage? {
         switch rating {
         case 1:
@@ -69,6 +84,14 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         default:
             return nil
         }
+    }
+    
+    @objc private func likeButtonTapped() {
+        onLikeButtonTapped?()
+    }
+    
+    @objc private func cartButtonTapped() {
+        onCartButtonTapped?()
     }
     
     // MARK: - UI Settings
@@ -89,7 +112,10 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         priceLabel.textColor = UIColor(resource: .nftBlack)
         priceLabel.numberOfLines = 1
         
-        cartButton.setImage(UIImage(resource: .cartIcon), for: .normal)
+        cartButton.tintColor = UIColor(resource: .nftBlack)
+        
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        cartButton.addTarget(self, action: #selector(cartButtonTapped), for: .touchUpInside)
     }
     
     private func addSubviews() {

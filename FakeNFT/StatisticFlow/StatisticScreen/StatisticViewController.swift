@@ -12,6 +12,7 @@ final class StatisticViewController: UIViewController {
     //MARK: - Private Properties
     private let viewModel: StatisticViewModel
     private let nftService: NftService
+    private let orderService: OrderService
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -26,9 +27,15 @@ final class StatisticViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: StatisticViewModel, nftService: NftService) {
+    init(
+        viewModel: StatisticViewModel,
+        nftService: NftService,
+        orderService: OrderService
+    ) {
         self.viewModel = viewModel
         self.nftService = nftService
+        self.orderService = orderService
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +63,36 @@ final class StatisticViewController: UIViewController {
     }
     
     @objc private func filterButtonTapped() {
-        //TODO: Логика фильтрации
+        let alertController = UIAlertController(
+            title: NSLocalizedString("SortButton.actionSheetHeader", comment: ""),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let ratingAction = UIAlertAction(
+            title: NSLocalizedString("SortButton.firstAction", comment: ""),
+            style: .default
+        ) { [weak self] _ in
+            self?.viewModel.sortUsers(by: .rating)
+        }
+        
+        let nameAction = UIAlertAction(
+            title: NSLocalizedString("SortButton.secondAction", comment: ""),
+            style: .default
+        ) { [weak self] _ in
+            self?.viewModel.sortUsers(by: .name)
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("Alert.close", comment: ""),
+            style: .cancel
+        )
+        
+        alertController.addAction(ratingAction)
+        alertController.addAction(nameAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
 }
 
@@ -64,7 +100,12 @@ final class StatisticViewController: UIViewController {
 extension StatisticViewController {
     
     private func setupNavigationBar() {
-        let filterButton = UIBarButtonItem(image: UIImage(resource: .filterButtonIcon), style: .plain, target: self, action: #selector(filterButtonTapped))
+        let filterButton = UIBarButtonItem(
+            image: UIImage(resource: .filterButtonIcon),
+            style: .plain,
+            target: self,
+            action: #selector(filterButtonTapped)
+        )
         
         navigationItem.rightBarButtonItem = filterButton
     }
@@ -128,7 +169,11 @@ extension StatisticViewController: UITableViewDelegate {
             nftIDs: user.nftIDs
         )
         
-        let userViewController = UserProfileViewController(viewModel: profileViewModel, nftService: nftService)
+        let userViewController = UserProfileViewController(
+            viewModel: profileViewModel,
+            nftService: nftService,
+            orderService: orderService
+        )
         
         navigationController?.pushViewController(userViewController, animated: true)
     }

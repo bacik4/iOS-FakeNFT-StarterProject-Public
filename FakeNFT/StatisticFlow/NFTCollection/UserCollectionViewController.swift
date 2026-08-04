@@ -28,6 +28,7 @@ final class UserCollectionViewController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Initializers
     init(viewModel: UserCollectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -78,6 +79,39 @@ final class UserCollectionViewController: UIViewController {
                 self?.collectionView.reloadData()
             }
         }
+        
+        viewModel.onNFTChanged = { [weak self] index in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+            }
+        }
+        
+        viewModel.onError = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showError(message: message)
+            }
+        }
+    }
+    
+    private func showError(message: String) {
+        guard presentedViewController == nil else {
+            return
+        }
+        
+        let alert = UIAlertController(
+            title: NSLocalizedString("ShowError.message", comment: ""),
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: NSLocalizedString("Alert.close", comment: ""),
+                style: .default
+            )
+        )
+        
+        present(alert, animated: true)
     }
 }
 
@@ -111,6 +145,14 @@ extension UserCollectionViewController:UICollectionViewDataSource {
         
         let nft = viewModel.getNft(at: indexPath.row)
         cell.configure(viewModel: nft)
+        
+        cell.onLikeButtonTapped = { [weak self] in
+            self?.viewModel.toggleLike(at: indexPath.row)
+        }
+        
+        cell.onCartButtonTapped = { [weak self] in
+            self?.viewModel.toggleCart(at: indexPath.row)
+        }
         
         return cell
     }
