@@ -2,27 +2,87 @@ import UIKit
 
 final class TabBarController: UITabBarController {
 
+    // MARK: - Dependencies
+
     var servicesAssembly: ServicesAssembly!
 
-    private let catalogTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(systemName: "square.stack.3d.up.fill"),
-        tag: 0
-    )
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let catalogController = TestCatalogViewController(
+        configureModules()
+    }
+}
+
+// MARK: - Configuration
+
+private extension TabBarController {
+
+    func configureModules() {
+        let catalogNavigationController =
+            makeCatalogNavigationController()
+
+        let cartNavigationController =
+            makeCartNavigationController()
+
+        setViewControllers(
+            [
+                catalogNavigationController,
+                cartNavigationController
+            ],
+            animated: false
+        )
+    }
+
+    func makeCatalogNavigationController() -> UIViewController {
+        let catalogAssembly = CatalogAssembly(
             servicesAssembly: servicesAssembly
         )
-        catalogController.tabBarItem = catalogTabBarItem
 
-        let cartVC = UINavigationController(rootViewController: CartViewController())
-        cartVC.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(systemName: "cart"), selectedImage: UIImage(systemName: "cart.fill"))
-        
-        viewControllers = [catalogController, cartVC]
+        let catalogViewController = catalogAssembly.build()
 
-        view.backgroundColor = .systemBackground
+        let navigationController = UINavigationController(
+            rootViewController: catalogViewController
+        )
+
+        navigationController.tabBarItem = UITabBarItem(
+            title: NSLocalizedString(
+                "Tab.catalog",
+                comment: ""
+            ),
+            image: UIImage(
+                systemName: "square.stack.3d.up"
+            ),
+            selectedImage: UIImage(
+                systemName: "square.stack.3d.up.fill"
+            )
+        )
+
+        return navigationController
+    }
+
+    func makeCartNavigationController() -> UIViewController {
+        let cartViewController = CartViewController()
+
+        let navigationController = UINavigationController(
+            rootViewController: cartViewController
+        )
+
+        navigationController.tabBarItem = UITabBarItem(
+            title: NSLocalizedString(
+                "Tab.cart",
+                value: "Корзина",
+                comment: ""
+            ),
+            image: UIImage(
+                systemName: "cart"
+            ),
+            selectedImage: UIImage(
+                systemName: "cart.fill"
+            )
+        )
+
+        return navigationController
     }
 }
