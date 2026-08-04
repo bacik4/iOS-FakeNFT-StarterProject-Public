@@ -12,3 +12,4 @@
 "SortButton.actionSheetHeader" = "Sort by";
 "SortButton.firstAction" = "Rating";
 "SortButton.secondAction" = "Name";
+"Alert.close" = "Close";

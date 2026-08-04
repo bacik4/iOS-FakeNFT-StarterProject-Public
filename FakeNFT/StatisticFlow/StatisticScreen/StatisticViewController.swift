@@ -62,15 +62,24 @@ final class StatisticViewController: UIViewController {
             preferredStyle: .actionSheet
         )
         
-        let ratingAction = UIAlertAction(title: NSLocalizedString("SortButton.firstAction", comment: ""), style: .default) { [weak self] _ in
+        let ratingAction = UIAlertAction(
+            title: NSLocalizedString("SortButton.firstAction", comment: ""),
+            style: .default
+        ) { [weak self] _ in
             self?.viewModel.sortUsers(by: .rating)
         }
         
-        let nameAction = UIAlertAction(title: NSLocalizedString("SortButton.secondAction", comment: ""), style: .default) { [weak self] _ in
+        let nameAction = UIAlertAction(
+            title: NSLocalizedString("SortButton.secondAction", comment: ""),
+            style: .default
+        ) { [weak self] _ in
             self?.viewModel.sortUsers(by: .name)
         }
         
-        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("Alert.close", comment: ""),
+            style: .cancel
+        )
         
         alertController.addAction(ratingAction)
         alertController.addAction(nameAction)
@@ -84,7 +93,12 @@ final class StatisticViewController: UIViewController {
 extension StatisticViewController {
     
     private func setupNavigationBar() {
-        let filterButton = UIBarButtonItem(image: UIImage(resource: .filterButtonIcon), style: .plain, target: self, action: #selector(filterButtonTapped))
+        let filterButton = UIBarButtonItem(
+            image: UIImage(resource: .filterButtonIcon),
+            style: .plain,
+            target: self,
+            action: #selector(filterButtonTapped)
+        )
         
         navigationItem.rightBarButtonItem = filterButton
     }
