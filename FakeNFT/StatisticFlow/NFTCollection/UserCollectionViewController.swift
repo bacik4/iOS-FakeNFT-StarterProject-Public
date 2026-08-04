@@ -28,6 +28,7 @@ final class UserCollectionViewController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Initializers
     init(viewModel: UserCollectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)

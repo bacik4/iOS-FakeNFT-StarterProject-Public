@@ -112,7 +112,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         priceLabel.textColor = UIColor(resource: .nftBlack)
         priceLabel.numberOfLines = 1
         
-        //  cartButton.setImage(UIImage(resource: .cartIconAdd), for: .normal)
+        cartButton.tintColor = UIColor(resource: .nftBlack)
         
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         cartButton.addTarget(self, action: #selector(cartButtonTapped), for: .touchUpInside)
