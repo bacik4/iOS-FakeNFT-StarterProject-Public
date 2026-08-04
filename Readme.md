@@ -1,6 +1,7 @@
 # Записи экранов
 
 Вкладка корзины: https://github.com/user-attachments/assets/14b2391c-8099-4f7b-a093-0d3ec1230ac0
+Вкладка статистики:
 
 # ТЗ мобильного приложения FakeNFT
 
