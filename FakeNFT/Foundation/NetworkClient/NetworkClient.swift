@@ -51,7 +51,7 @@ protocol NetworkClient {
 // MARK: - Default parameters
 
 extension NetworkClient {
-
+    
     @discardableResult
     func send(
         request: NetworkRequest,
@@ -63,7 +63,7 @@ extension NetworkClient {
             onResponse: onResponse
         )
     }
-
+    
     @discardableResult
     func send<T: Decodable>(
         request: NetworkRequest,
@@ -165,9 +165,9 @@ struct DefaultNetworkClient: NetworkClient {
 
             complete(.success(data))
         }
-
+        
         task.resume()
-
+        
         return DefaultNetworkTask(dataTask: task)
     }
 
@@ -217,7 +217,7 @@ struct DefaultNetworkClient: NetworkClient {
         guard let endpoint = request.endpoint else {
             return nil
         }
-
+        
         var urlRequest = URLRequest(url: endpoint)
         urlRequest.httpMethod = request.httpMethod.rawValue
 
@@ -225,12 +225,9 @@ struct DefaultNetworkClient: NetworkClient {
             RequestConstants.token,
             forHTTPHeaderField: "X-Practicum-Mobile-Token"
         )
-
-        urlRequest.setValue(
-            "application/json",
-            forHTTPHeaderField: "Accept"
-        )
-
+        
+        urlRequest.addValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+        
         if let dtoDictionary = request.dto?.asDictionary() {
             var urlComponents = URLComponents()
 

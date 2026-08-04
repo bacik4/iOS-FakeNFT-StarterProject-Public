@@ -10,4 +10,7 @@ struct Nft: Decodable {
     let author: String
     let website: URL
     let id: String
+    let name: String
+    let price: Double
+    let rating: Int
 }
