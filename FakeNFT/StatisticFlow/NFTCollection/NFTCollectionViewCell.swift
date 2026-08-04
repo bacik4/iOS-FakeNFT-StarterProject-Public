@@ -42,6 +42,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
         priceLabel.text = nil
         likeButton.setImage(nil, for: .normal)
+        cartButton.setImage(nil, for: .normal)
         onLikeButtonTapped = nil
         onCartButtonTapped = nil
     }
@@ -57,9 +58,17 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         : UIImage(resource: .likeInactiveIcon)
         
         likeButton.setImage(likeImage, for: .normal)
+        
+        let cartImage = viewModel.isInCart
+        ? UIImage(resource: .cartIconDelete)
+        : UIImage(resource: .cartIconAdd)
+        
+        cartButton.setImage(cartImage, for: .normal)
+        
         nftImageView.kf.setImage(with: viewModel.imageURL)
     }
     
+    // MARK: - Private Methods
     private func makeRatingImage(rating: Int) -> UIImage? {
         switch rating {
         case 1:
@@ -76,8 +85,6 @@ final class NFTCollectionViewCell: UICollectionViewCell {
             return nil
         }
     }
-    
-    // MARK: - Private Methods
     
     @objc private func likeButtonTapped() {
         onLikeButtonTapped?()
@@ -105,7 +112,7 @@ final class NFTCollectionViewCell: UICollectionViewCell {
         priceLabel.textColor = UIColor(resource: .nftBlack)
         priceLabel.numberOfLines = 1
         
-        cartButton.setImage(UIImage(resource: .cartIconAdd), for: .normal)
+        //  cartButton.setImage(UIImage(resource: .cartIconAdd), for: .normal)
         
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         cartButton.addTarget(self, action: #selector(cartButtonTapped), for: .touchUpInside)

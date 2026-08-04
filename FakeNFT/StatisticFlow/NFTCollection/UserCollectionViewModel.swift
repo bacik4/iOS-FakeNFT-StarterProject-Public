@@ -91,7 +91,7 @@ final class UserCollectionViewModel {
     
     func toggleLike(at index: Int) {
         nfts[index].isLiked.toggle()
-        onNFTsChanged?()
+        onNFTChanged?(index)
     }
     
     func toggleCart(at index: Int) {
