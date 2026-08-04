@@ -13,3 +13,4 @@
 "SortButton.firstAction" = "Rating";
 "SortButton.secondAction" = "Name";
 "Alert.close" = "Close";
+"ShowError.message" = "Something wrong";

@@ -12,6 +12,7 @@ final class StatisticViewController: UIViewController {
     //MARK: - Private Properties
     private let viewModel: StatisticViewModel
     private let nftService: NftService
+    private let orderService: OrderService
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -26,9 +27,15 @@ final class StatisticViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: StatisticViewModel, nftService: NftService) {
+    init(
+        viewModel: StatisticViewModel,
+        nftService: NftService,
+        orderService: OrderService
+    ) {
         self.viewModel = viewModel
         self.nftService = nftService
+        self.orderService = orderService
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -162,7 +169,11 @@ extension StatisticViewController: UITableViewDelegate {
             nftIDs: user.nftIDs
         )
         
-        let userViewController = UserProfileViewController(viewModel: profileViewModel, nftService: nftService)
+        let userViewController = UserProfileViewController(
+            viewModel: profileViewModel,
+            nftService: nftService,
+            orderService: orderService
+        )
         
         navigationController?.pushViewController(userViewController, animated: true)
     }

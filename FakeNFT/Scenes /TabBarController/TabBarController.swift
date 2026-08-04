@@ -32,17 +32,26 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupTabs() {
-        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        let catalogController = TestCatalogViewController(
+            servicesAssembly: servicesAssembly
+        )
         catalogController.tabBarItem = catalogTabBarItem
         
-        let statisticViewModel = StatisticViewModel(userService: servicesAssembly.userService)
+        let statisticViewModel = StatisticViewModel(
+            userService: servicesAssembly.userService
+        )
+        
         let statisticController = StatisticViewController(
             viewModel: statisticViewModel,
-            nftService: servicesAssembly.nftService
+            nftService: servicesAssembly.nftService,
+            orderService: servicesAssembly.orderService
         )
+        
         statisticController.tabBarItem = statisticTabBarItem
         
-        let statisticNavigationController = UINavigationController(rootViewController: statisticController)
+        let statisticNavigationController = UINavigationController(
+            rootViewController: statisticController
+        )
         statisticNavigationController.tabBarItem = statisticTabBarItem
         
         viewControllers = [

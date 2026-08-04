@@ -13,3 +13,4 @@
 "SortButton.firstAction" = "По рейтингу";
 "SortButton.secondAction" = "По имени";
 "Alert.close" = "Закрыть";
+"ShowError.message" = "Что-то пошло не так";

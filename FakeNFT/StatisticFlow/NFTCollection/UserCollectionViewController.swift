@@ -63,6 +63,7 @@ final class UserCollectionViewController: UIViewController {
         viewModel.onLoadingChanged = { [weak self] isLoading in
             DispatchQueue.main.async {
                 guard let self else { return }
+                
                 if isLoading {
                     ProgressHUD.show()
                     self.collectionView.isUserInteractionEnabled = false
@@ -81,11 +82,36 @@ final class UserCollectionViewController: UIViewController {
         
         viewModel.onNFTChanged = { [weak self] index in
             DispatchQueue.main.async {
-                self?.collectionView.reloadItems(
-                    at: [IndexPath(item: index, section: 0)]
-                )
+                self?.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
             }
         }
+        
+        viewModel.onError = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showError(message: message)
+            }
+        }
+    }
+    
+    private func showError(message: String) {
+        guard presentedViewController == nil else {
+            return
+        }
+        
+        let alert = UIAlertController(
+            title: NSLocalizedString("ShowError.message", comment: ""),
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: NSLocalizedString("Alert.close", comment: ""),
+                style: .default
+            )
+        )
+        
+        present(alert, animated: true)
     }
 }
 

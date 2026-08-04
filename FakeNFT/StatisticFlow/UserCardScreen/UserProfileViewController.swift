@@ -13,6 +13,7 @@ final class UserProfileViewController: UIViewController {
     // MARK: - Private Properties
     private let viewModel: UserProfileViewModel
     private let nftService: NftService
+    private let orderService: OrderService
     
     private lazy var avatarImageView = UIImageView()
     private lazy var nameLabel = UILabel()
@@ -24,9 +25,14 @@ final class UserProfileViewController: UIViewController {
     private lazy var collectionArrowImageView = UIImageView()
     
     // MARK: - Initializers
-    init(viewModel: UserProfileViewModel, nftService: NftService) {
+    init(
+        viewModel: UserProfileViewModel,
+        nftService: NftService,
+        orderService: OrderService
+    ) {
         self.viewModel = viewModel
         self.nftService = nftService
+        self.orderService = orderService
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,10 +61,20 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc private func userCollectionButtonTapped() {
-        let collectionViewModel = UserCollectionViewModel(nftIDs: viewModel.nftIDs, nftService: nftService)
-        let controller = UserCollectionViewController(viewModel: collectionViewModel)
+        let collectionViewModel = UserCollectionViewModel(
+            nftIDs: viewModel.nftIDs,
+            nftService: nftService,
+            orderService: orderService
+        )
         
-        navigationController?.pushViewController(controller, animated: true)
+        let controller = UserCollectionViewController(
+            viewModel: collectionViewModel
+        )
+        
+        navigationController?.pushViewController(
+            controller,
+            animated: true
+        )
     }
 }
 

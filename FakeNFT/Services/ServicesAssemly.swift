@@ -18,4 +18,8 @@ final class ServicesAssembly {
     lazy var nftService: NftService = {
         NftServiceImpl(networkClient: networkClient, storage: nftStorage)
     }()
+    
+    lazy var orderService: OrderService = {
+        OrderServiceImpl(networkClient: networkClient)
+    }()
 }
