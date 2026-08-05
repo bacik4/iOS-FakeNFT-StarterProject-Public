@@ -2,7 +2,7 @@
 
 Таск-менеджер: https://github.com/users/bacik4/projects/2
 
-Скринкаст каталога: https://github.com/user-attachments/assets/12cc3988-4f2b-4f77-9433-9cf692c8632b
+Скринкаст каталога: https://github.com/user-attachments/assets/2e783040-5da1-424b-8c27-15bcec8c143b
 
 Декомпозиция эпика «Каталог» на три подфичи по [ТЗ](../Readme.md#каталог): **сетевой слой**, **экран каталога** и **экран коллекции NFT**.
 
