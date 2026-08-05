@@ -14,3 +14,6 @@
 "SortButton.secondAction" = "Name";
 "Alert.close" = "Close";
 "ShowError.message" = "Something wrong";
+"Catalog.sort.title" = "Sort";
+"Catalog.sort.name" = "By name";
+"Catalog.sort.nftCount" = "By NFT count";

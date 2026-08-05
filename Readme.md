@@ -3,6 +3,7 @@
 Вкладка корзины: https://github.com/user-attachments/assets/14b2391c-8099-4f7b-a093-0d3ec1230ac0
 
 Вкладка статистики: https://disk.yandex.ru/d/GOdLQJIJk0mu8A
+Вкладка каталога: https://github.com/user-attachments/assets/12cc3988-4f2b-4f77-9433-9cf692c8632b
 
 # ТЗ мобильного приложения FakeNFT
 
