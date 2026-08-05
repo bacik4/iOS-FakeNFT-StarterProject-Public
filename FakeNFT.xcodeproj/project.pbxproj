@@ -26,7 +26,6 @@
 		281199593016510300F52031 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28119958301650F900F52031 /* UserModel.swift */; };
 		2811995B301651A400F52031 /* UsersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811995A3016519700F52031 /* UsersRequest.swift */; };
 		2811995D301652D600F52031 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811995C301652CD00F52031 /* UserService.swift */; };
-		2811995F3016605900F52031 /* SensitiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811995E3016604C00F52031 /* SensitiveData.swift */; };
 		283EE54630228F1A0084DE7D /* UpdateOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283EE53230228F1A0084DE7D /* UpdateOrderRequest.swift */; };
 		283EE54730228F1A0084DE7D /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283EE54130228F1A0084DE7D /* UserProfileViewModel.swift */; };
 		283EE54830228F1A0084DE7D /* UserCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283EE53830228F1A0084DE7D /* UserCollectionViewController.swift */; };
@@ -144,7 +143,6 @@
 		28119958301650F900F52031 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2811995A3016519700F52031 /* UsersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersRequest.swift; sourceTree = "<group>"; };
 		2811995C301652CD00F52031 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		2811995E3016604C00F52031 /* SensitiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveData.swift; sourceTree = "<group>"; };
 		283EE52D30228F1A0084DE7D /* OrderModelStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModelStatistic.swift; sourceTree = "<group>"; };
 		283EE52E30228F1A0084DE7D /* OrderRequestStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequestStatistic.swift; sourceTree = "<group>"; };
 		283EE52F30228F1A0084DE7D /* OrderServiceStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderServiceStatistic.swift; sourceTree = "<group>"; };
@@ -481,7 +479,6 @@
 				3F6806C729CBBC5B00B4F915 /* Scenes  */,
 				3F6806C629CBBC4E00B4F915 /* Services */,
 				3F6806A429CBBAF200B4F915 /* Info.plist */,
-				2811995E3016604C00F52031 /* SensitiveData.swift */,
 			);
 			path = FakeNFT;
 			sourceTree = "<group>";
@@ -889,7 +886,6 @@
 				E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */,
 				3F478ED129DB476500F6D39E /* Fonts.swift in Sources */,
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
-				2811995F3016605900F52031 /* SensitiveData.swift in Sources */,
 				281199593016510300F52031 /* UserModel.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,

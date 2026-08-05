@@ -14,3 +14,6 @@
 "SortButton.secondAction" = "По имени";
 "Alert.close" = "Закрыть";
 "ShowError.message" = "Что-то пошло не так";
+"Catalog.sort.title" = "Сортировка";
+"Catalog.sort.name" = "По названию";
+"Catalog.sort.nftCount" = "По количеству NFT";
