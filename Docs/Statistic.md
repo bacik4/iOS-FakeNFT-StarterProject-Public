@@ -1,5 +1,10 @@
 # Декомпозиция эпика «Статистика»
 
+Архитектура: MVVM
+Верстка: Код(без сториборда)
+Таск-менеджер: https://github.com/users/bacik4/projects/2
+Скринкаст: https://disk.yandex.ru/d/GOdLQJIJk0mu8A
+
 ## Модуль 1
 
 ### UI часть
