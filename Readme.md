@@ -6,7 +6,7 @@
 Вкладка статистики: https://disk.yandex.ru/d/GOdLQJIJk0mu8A
 
 
-Вкладка каталога: https://github.com/user-attachments/assets/12cc3988-4f2b-4f77-9433-9cf692c8632b
+Вкладка каталога: https://github.com/user-attachments/assets/2e783040-5da1-424b-8c27-15bcec8c143b
 
 # ТЗ мобильного приложения FakeNFT
 
