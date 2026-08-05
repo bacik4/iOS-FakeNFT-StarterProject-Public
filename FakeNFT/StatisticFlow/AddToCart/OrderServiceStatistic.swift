@@ -1,5 +1,5 @@
 //
-//  OrderService.swift
+//  OrderServiceStatistic.swift
 //  FakeNFT
 //
 //  Created by Роман Пичугин on 04.08.2026.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias OrderCompletion = (Result<Order, Error>) -> Void
+typealias OrderCompletionStatistic = (Result<Order, Error>) -> Void
 
 protocol OrderServiceStatistic {
     

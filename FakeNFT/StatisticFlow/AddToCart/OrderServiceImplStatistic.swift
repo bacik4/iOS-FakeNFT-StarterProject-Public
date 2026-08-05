@@ -1,5 +1,5 @@
 //
-//  OrderServiceImpl.swift
+//  OrderServiceImplStatistic.swift
 //  FakeNFT
 //
 //  Created by Роман Пичугин on 04.08.2026.
@@ -7,14 +7,13 @@
 
 import Foundation
 
-final class OrderServiceImpl: OrderService {
+final class OrderServiceImplStatistic: OrderService {
     
     // MARK: - Private Properties
     private let networkClient: NetworkClient
     private let orderId: String
     
     // MARK: - Initializer
-    
     init(
         networkClient: NetworkClient,
         orderId: String = "1"
@@ -25,9 +24,7 @@ final class OrderServiceImpl: OrderService {
     
     // MARK: - OrderService
     @discardableResult func loadOrder(completion: @escaping OrderCompletion) -> NetworkTask? {
-        let request = OrderRequest(
-            orderId: orderId
-        )
+        let request = OrderRequestStatistic(orderId: orderId)
         
         return networkClient.send(
             request: request,
@@ -37,11 +34,9 @@ final class OrderServiceImpl: OrderService {
     }
     
     @discardableResult func updateOrder(nfts: [String], completion: @escaping OrderCompletion) -> NetworkTask? {
-        let dto = UpdateOrderDto(
-            nfts: nfts
-        )
+        let dto = UpdateOrderDtoStatistic(nfts: nfts)
         
-        let request = UpdateOrderRequest(
+        let request = UpdateOrderRequestStatistic(
             orderId: orderId,
             dto: dto
         )

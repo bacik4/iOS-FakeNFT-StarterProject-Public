@@ -1,5 +1,5 @@
 //
-//  UpdateOrderRequest.swift
+//  UpdateOrderRequestStatistic.swift
 //  FakeNFT
 //
 //  Created by Роман Пичугин on 04.08.2026.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateOrderRequest: NetworkRequest {
+struct UpdateOrderRequestStatistic: NetworkRequest {
     
     let orderId: String
     let dto: Dto?
